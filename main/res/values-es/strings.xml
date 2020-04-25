@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Exerciser</string>
+    <string name="tab_text_1">Primero</string>
+    <string name="tab_text_2">Segundo</string>
+    <string name="tab_text_3">Personalizado</string>
+</resources>
