@@ -1,4 +1,4 @@
-package com.exercisertake3;
+package com.exerciser;
 
 import android.os.Bundle;
 import android.view.View;
