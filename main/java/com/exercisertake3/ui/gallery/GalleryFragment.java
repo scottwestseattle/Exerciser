@@ -1,4 +1,4 @@
-package com.exerciser.ui.gallery;
+package com.exercisertake3.ui.gallery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.exerciser.R;
+import com.exercisertake3.R;
 
 public class GalleryFragment extends Fragment {
 

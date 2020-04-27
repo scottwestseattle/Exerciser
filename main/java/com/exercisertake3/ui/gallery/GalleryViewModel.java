@@ -1,16 +1,16 @@
-package com.exerciser.ui.programs;
+package com.exercisertake3.ui.gallery;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ProgramsViewModel extends ViewModel {
+public class GalleryViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ProgramsViewModel() {
+    public GalleryViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Programs");
+        mText.setValue("This is gallery fragment");
     }
 
     public LiveData<String> getText() {

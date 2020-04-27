@@ -1,16 +1,16 @@
-package com.exerciser.ui.home;
+package com.exercisertake3.ui.slideshow;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class SlideshowViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public SlideshowViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Home View");
+        mText.setValue("This is slideshow fragment");
     }
 
     public LiveData<String> getText() {

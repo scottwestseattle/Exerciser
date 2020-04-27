@@ -1,4 +1,4 @@
-package com.exerciser.ui.programs;
+package com.exercisertake3.ui.slideshow;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,19 +12,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.exerciser.R;
+import com.exercisertake3.R;
 
-public class ProgramsFragment extends Fragment {
+public class SlideshowFragment extends Fragment {
 
-    private ProgramsViewModel programsViewModel;
+    private SlideshowViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        programsViewModel =
-                ViewModelProviders.of(this).get(ProgramsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_programs, container, false);
-        final TextView textView = root.findViewById(R.id.text_programs);
-        programsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        slideshowViewModel =
+                ViewModelProviders.of(this).get(SlideshowViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+        final TextView textView = root.findViewById(R.id.text_slideshow);
+        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
