@@ -32,13 +32,26 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        final Button button = root.findViewById(R.id.button_beginner);
+        Button button = root.findViewById(R.id.button_beginner);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                textView.setText("Starting...");
+                textView.setText("Beginner Program");
             }
         });
 
+        button = root.findViewById(R.id.button_intermediate);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                textView.setText("Intermediate Program");
+            }
+        });
+
+        button = root.findViewById(R.id.button_advanced);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                textView.setText("Advanced Program");
+            }
+        });
 
         return root;
     }
