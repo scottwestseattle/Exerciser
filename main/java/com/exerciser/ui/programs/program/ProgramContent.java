@@ -46,6 +46,7 @@ public class ProgramContent {
         return new ProgramItem(String.valueOf(position), name, description, imageId);
     }
 
+    //sbw: not used
     private static String makeDetails(int position) {
         StringBuilder builder = new StringBuilder();
         builder.append("Details about Item: ").append(position);

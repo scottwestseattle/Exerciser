@@ -73,6 +73,7 @@ public class ProgramsFragment extends Fragment {
             }
             recyclerView.setAdapter(new MyProgramsRecyclerViewAdapter(ProgramContent.ITEMS, mListener));
         }
+
         return view;
     }
 

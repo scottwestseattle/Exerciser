@@ -3,9 +3,11 @@ package com.exerciser.ui.programs;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -84,11 +86,19 @@ public class MyProgramsRecyclerViewAdapter extends RecyclerView.Adapter<MyProgra
             programDescription = (TextView)itemView.findViewById(R.id.program_description);
             programPhoto = (ImageView)itemView.findViewById(R.id.program_photo);
 
+            final Button button = itemView.findViewById(R.id.button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    button.setBackgroundColor(Color.RED);
+                }
+            });
         }
 
         @Override
         public String toString() {
             return super.toString() + " '" + programName.getText() + "'";
         }
+
     }
 }
