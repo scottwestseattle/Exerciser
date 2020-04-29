@@ -1,5 +1,7 @@
 package com.exerciser.ui.programs.program;
 
+import com.exerciser.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,9 +32,9 @@ public class ProgramContent {
         for (int i = 1; i <= COUNT; i++) {
         }
 
-        addItem(createProgramItem(1, "Beginner"));
-        addItem(createProgramItem(2, "Intermediate"));
-        addItem(createProgramItem(3, "Advanced"));
+        addItem(createProgramItem(1, "Beginner", "Strength and endurance building",  R.drawable.dolphin_plank));
+        addItem(createProgramItem(2, "Intermediate", "Next level of endurance", R.drawable.downward_dog));
+        addItem(createProgramItem(3, "Advanced", "Longer and harder work-outs", R.drawable.plank));
     }
 
     private static void addItem(ProgramItem item) {
@@ -40,8 +42,8 @@ public class ProgramContent {
         ITEM_MAP.put(item.id, item);
     }
 
-    private static ProgramItem createProgramItem(int position, String name) {
-        return new ProgramItem(String.valueOf(position), name, makeDetails(position));
+    private static ProgramItem createProgramItem(int position, String name, String description, int imageId) {
+        return new ProgramItem(String.valueOf(position), name, description, imageId);
     }
 
     private static String makeDetails(int position) {
@@ -58,18 +60,20 @@ public class ProgramContent {
      */
     public static class ProgramItem {
         public final String id;
-        public final String content;
-        public final String details;
+        public final String name;
+        public final String description;
+        public final int imageId;
 
-        public ProgramItem(String id, String content, String details) {
+        public ProgramItem(String id, String name, String description, int imageId) {
             this.id = id;
-            this.content = content;
-            this.details = details;
+            this.name = name;
+            this.imageId = imageId;
+            this.description = description;
         }
 
         @Override
         public String toString() {
-            return content;
+            return name;
         }
     }
 }

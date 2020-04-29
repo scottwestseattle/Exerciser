@@ -1,10 +1,12 @@
 package com.exerciser.ui.programs;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.exerciser.R;
@@ -39,7 +41,9 @@ public class MyProgramsRecyclerViewAdapter extends RecyclerView.Adapter<MyProgra
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         //sbw holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.programName.setText(mValues.get(position).name);
+        holder.programDescription.setText(mValues.get(position).description);
+        holder.programPhoto.setImageResource(mValues.get(position).imageId);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,20 +64,31 @@ public class MyProgramsRecyclerViewAdapter extends RecyclerView.Adapter<MyProgra
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        //sbw public final TextView mIdView;
-        public final TextView mContentView;
+        //orig public final TextView mIdView;
+        //orig public final TextView mContentView;
         public ProgramItem mItem;
+
+        CardView card_view;
+        TextView programName;
+        TextView programDescription;
+        ImageView programPhoto;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            //sbw mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            //orig mIdView = (TextView) view.findViewById(R.id.item_number);
+            //orig mContentView = (TextView) view.findViewById(R.id.content);
+
+            card_view = (CardView) view.findViewById(R.id.card_view);
+            programName = (TextView)itemView.findViewById(R.id.program_name);
+            programDescription = (TextView)itemView.findViewById(R.id.program_description);
+            programPhoto = (ImageView)itemView.findViewById(R.id.program_photo);
+
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + programName.getText() + "'";
         }
     }
 }
