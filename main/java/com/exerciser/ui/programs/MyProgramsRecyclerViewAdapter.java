@@ -22,10 +22,18 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyProgramsRecyclerViewAdapter extends RecyclerView.Adapter<MyProgramsRecyclerViewAdapter.ViewHolder> {
+public class MyProgramsRecyclerViewAdapter
+        extends RecyclerView.Adapter<MyProgramsRecyclerViewAdapter.ViewHolder>
+        implements ProgramsFragment.OnListFragmentInteractionListener
+{
 
     private final List<ProgramItem> mValues;
     private final OnListFragmentInteractionListener mListener;
+
+    @Override
+    public void onListFragmentInteraction(ProgramItem item) {
+
+    }
 
     public MyProgramsRecyclerViewAdapter(List<ProgramItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
