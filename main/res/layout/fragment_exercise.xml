@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginBottom="0dp"
-        android:src="@drawable/downward_dog"
+        android:src="@drawable/push_ups"
         app:layout_constraintBottom_toTopOf="@id/textview_exercise_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

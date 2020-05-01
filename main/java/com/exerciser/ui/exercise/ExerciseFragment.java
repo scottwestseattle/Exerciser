@@ -14,6 +14,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.exerciser.R;
 
+import java.util.Random;
+
 public class ExerciseFragment extends Fragment {
 
     @Override
@@ -49,6 +51,7 @@ public class ExerciseFragment extends Fragment {
 
             if (secondsRemaining >= 1) {
                 handler.postDelayed(runnable, second); // update in 1 second
+                updateTimerAudio(secondsRemaining);
             } else {
                 stopTimer();
                 showBreakFragment();
@@ -56,12 +59,81 @@ public class ExerciseFragment extends Fragment {
         }
     };
 
+    private void updateTimerAudio(int seconds) {
+        if (seconds == 11)
+        {
+            ExerciseActivity activity = (ExerciseActivity) getActivity();
+            ExerciseContent.ExerciseItem exerciseItem = activity.getCurrentExercise();
+            if (exerciseItem.instructions.length() > 0)
+            {
+                speak(exerciseItem.instructions);
+            }
+        }
+        else if (seconds <= 10 && seconds > 0) {
+            speak(Integer.toString(seconds));
+        } else if ((seconds % 10) == 0) {
+
+            ExerciseActivity activity = (ExerciseActivity) getActivity();
+            ExerciseContent.ExerciseItem exerciseItem = activity.getCurrentExercise();
+
+            String msg = "";
+
+            if (exerciseItem.instructions.length() > 0)
+            {
+                msg += exerciseItem.instructions + "  ";
+            }
+
+            msg += getSecondsRemainingMessage(seconds);
+
+            speak(msg);
+        }
+    }
+
+    private String getSecondsRemainingMessage(int seconds) {
+        String msg = "";
+        int option = new Random().nextInt(7);
+
+        switch(option) {
+            case 0:
+                msg = Integer.toString(seconds) + " seconds to go";
+                break;
+            case 1:
+                msg = Integer.toString(seconds) + " seconds remaining";
+                break;
+            case 2:
+                msg = Integer.toString(seconds) + " more seconds";
+                break;
+            case 3:
+                msg = "Only " + Integer.toString(seconds) + " more seconds";
+                break;
+            case 4:
+                msg = "Keep it up for " + Integer.toString(seconds) + " more seconds";
+                break;
+            case 5:
+                msg = "Keep going for " + Integer.toString(seconds) + " more seconds";
+                break;
+            case 6:
+                msg = "Stay strong for " + Integer.toString(seconds) + " seconds longer";
+                break;
+            default:
+                msg = Integer.toString(seconds) + " seconds (random error)";
+        }
+
+        return msg + ".";
+    }
+
+    private void speak(String text) {
+        ExerciseActivity activity = (ExerciseActivity) getActivity();
+        activity.speak(text);
+    }
+
     private void loadCurrent() {
 
         ExerciseActivity activity = (ExerciseActivity) getActivity();
         ExerciseContent.ExerciseItem exerciseItem = activity.getCurrentExercise();
         if (null != exerciseItem) {
             setStaticViews(exerciseItem, activity.getTotalExercises());
+            speak("Do " + exerciseItem.name + " -- for " + exerciseItem.runSeconds + " seconds");
             startTimer(exerciseItem.runSeconds);
         }
     }

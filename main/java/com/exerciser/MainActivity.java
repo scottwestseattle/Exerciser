@@ -45,15 +45,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
 
+                // handle button click
             }
         });
-
-        // handle button click
-        Intent intent = new Intent(this, ExerciseActivity.class);
-        startActivity(intent);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -66,6 +63,15 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        startExercise();
+    }
+
+    public void startExercise()
+    {
+        // handle button click
+        Intent intent = new Intent(this, ExerciseActivity.class);
+        startActivity(intent);
     }
 
     @Override
