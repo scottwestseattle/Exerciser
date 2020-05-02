@@ -113,7 +113,7 @@ public class ExerciseFragment extends Fragment {
                 msg = "Keep going for " + Integer.toString(seconds) + " more seconds";
                 break;
             case 6:
-                msg = "Stay strong for " + Integer.toString(seconds) + " seconds longer";
+                msg = "Continue for " + Integer.toString(seconds) + " seconds longer";
                 break;
             default:
                 msg = Integer.toString(seconds) + " seconds (random error)";
@@ -133,7 +133,7 @@ public class ExerciseFragment extends Fragment {
         ExerciseContent.ExerciseItem exerciseItem = activity.getCurrentExercise();
         if (null != exerciseItem) {
             setStaticViews(exerciseItem, activity.getTotalExercises());
-            speak("Do " + exerciseItem.name + " -- for " + exerciseItem.runSeconds + " seconds");
+            speak("Begin.  Do " + exerciseItem.name + " -- for " + exerciseItem.runSeconds + " seconds");
             startTimer(exerciseItem.runSeconds);
         }
     }

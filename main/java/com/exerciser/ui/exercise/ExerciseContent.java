@@ -35,7 +35,7 @@ public class ExerciseContent {
         if (true)
         {
             // quick test program
-            addItem(createExerciseItem("The Basic Plank", "", R.drawable.plank, 25, 10, ++order, "Keep the body flat!"));
+            addItem(createExerciseItem("The Basic Plank", "", R.drawable.plank, 25, 10, ++order, "Keep stright."));
             addItem(createExerciseItem("Fire Hydrant", "", R.drawable.fire_hydrant, 30, 20, ++order, "Switch sides."));
             addItem(createExerciseItem("Reverse Plank Table with leg lift", "", R.drawable.reverse_table_with_leg_lift, 30, 20, ++order, "Switch legs!"));
             addItem(createExerciseItem("Lord of the Dance", "", R.drawable.lord_of_the_dance, 40, 20, ++order, "Change Sides."));

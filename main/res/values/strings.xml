@@ -21,4 +21,6 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="exercise_get_ready">Get ready</string>
+    <string name="exercise_take_a_break">Take a break</string>
 </resources>

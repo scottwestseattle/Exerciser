@@ -102,13 +102,13 @@ public class BreakFragment extends Fragment {
 
             if (exerciseItem.order == 1) // first exercise
             {
-                title = "Get ready";
+                title = getResources().getString(R.string.exercise_get_ready);
                 text = title + " to start in " + seconds + " seconds.";
                 text += "  The first exercise is, " + exerciseItem.name + ", for " + exerciseItem.runSeconds + " seconds.";
             }
             else
             {
-                title = "Take a break";;
+                title = getResources().getString(R.string.exercise_take_a_break);
                 text = title + " for " + seconds + " seconds.";
                 text += "  The next exercise is, " + exerciseItem.name + ", for " + exerciseItem.runSeconds + " seconds.";
             }
