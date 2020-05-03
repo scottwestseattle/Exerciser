@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.exerciser.R;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class ExerciseActivity extends AppCompatActivity {
@@ -56,7 +57,6 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public void reset()
@@ -93,6 +93,8 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     public ExerciseContent.ExerciseItem getNextExercise() {
+
+        this.exerciseList.load();
 
         ExerciseContent.ExerciseItem ex = null;
 

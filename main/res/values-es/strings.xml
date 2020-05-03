@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ejercisador</string>
-    <string name="exercise_get_ready">Preparáte</string>
-    <string name="exercise_take_a_break">Toma un descanso</string>
 </resources>

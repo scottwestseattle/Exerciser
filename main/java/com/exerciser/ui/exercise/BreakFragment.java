@@ -180,8 +180,10 @@ public class BreakFragment extends Fragment {
             tv.setText(Integer.toString(this.secondsRemaining));
 
         ImageView iv = this.getView().findViewById(R.id.imageViewCurrent);
-        if (null != iv)
-            iv.setImageResource(exerciseItem.imageId);
+        if (null != iv) {
+            int id = getResources().getIdentifier(exerciseItem.imageName, "drawable", getContext().getPackageName());
+            iv.setImageResource(id);
+        }
 
     }
 }

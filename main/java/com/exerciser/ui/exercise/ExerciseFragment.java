@@ -80,7 +80,8 @@ public class ExerciseFragment extends Fragment {
 
             if (exerciseItem.instructions.length() > 0)
             {
-                msg += exerciseItem.instructions + "  ";
+                msg += exerciseItem.instructions;
+                msg += msg.endsWith(".") ? "  " : ".  ";
             }
 
             msg += getSecondsRemainingMessage(seconds);
@@ -173,8 +174,10 @@ public class ExerciseFragment extends Fragment {
             exerciseSeconds.setText(Integer.toString(exerciseItem.runSeconds) + " seconds");
 
         ImageView iv = this.getView().findViewById(R.id.imageViewCurrent);
-        if (null != iv)
-            iv.setImageResource(exerciseItem.imageId);
+        if (null != iv) {
+            int id = getResources().getIdentifier(exerciseItem.imageName, "drawable", getContext().getPackageName());
+            iv.setImageResource(id);
+        }
 
     }
 
