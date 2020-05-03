@@ -8,21 +8,20 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 
 import com.exerciser.R;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class ExerciseActivity extends AppCompatActivity {
 
-    public static final ExerciseContent exerciseList = new ExerciseContent();
+    public static final ExerciseContent exercises = new ExerciseContent();
     public int currentExerciseIndex = -1;
-    public TextToSpeech tts;
+    public TextToSpeech tts = null;
+    public boolean isSpeechLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +40,7 @@ public class ExerciseActivity extends AppCompatActivity {
         });
 
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
@@ -52,6 +52,8 @@ public class ExerciseActivity extends AppCompatActivity {
                         Log.i("TTS", "Language Supported.");
                     }
                     Log.i("TTS", "Initialization success.");
+                    isSpeechLoaded = true;
+                    //speak("speech ready", TextToSpeech.QUEUE_ADD);
                 } else {
                     Log.i("TTS", "TTS Initialization failed!");
                 }
@@ -64,16 +66,20 @@ public class ExerciseActivity extends AppCompatActivity {
         this.currentExerciseIndex = -1;
     }
 
-    public void speak(String text) {
+    public void speak(String text, int queueAction) {
 
-        int speechStatus = tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        int speechStatus = tts.speak(text, queueAction, null);
         if (speechStatus == TextToSpeech.ERROR) {
             Log.i("TTS", "Error in converting Text to Speech!");
         }
     }
 
+    public boolean isLoaded() {
+        return null != this.tts && this.isSpeechLoaded && this.exercises.isLoaded();
+    }
+
     public int getTotalExercises() {
-        return this.exerciseList.ITEMS.size();
+        return this.exercises.exerciseList.size();
     }
 
     public int getTimerSeconds() {
@@ -81,12 +87,12 @@ public class ExerciseActivity extends AppCompatActivity {
         int seconds = -1;
 
         if (getCurrentExercise().isFirst()) {
-            seconds = this.exerciseList.startSeconds;
+            seconds = this.exercises.startSeconds;
         }
         else {
             // get break seconds from previous item NOT current item
             if (this.currentExerciseIndex > 0)
-                seconds = this.exerciseList.ITEMS.get(this.currentExerciseIndex - 1).breakSeconds;
+                seconds = this.exercises.exerciseList.get(this.currentExerciseIndex - 1).breakSeconds;
         }
 
         return seconds;
@@ -94,15 +100,15 @@ public class ExerciseActivity extends AppCompatActivity {
 
     public ExerciseContent.ExerciseItem getNextExercise() {
 
-        this.exerciseList.load();
-
         ExerciseContent.ExerciseItem ex = null;
 
-        this.currentExerciseIndex++;
+        if (this.exercises.isLoaded()) {
 
-        if (this.currentExerciseIndex < this.exerciseList.ITEMS.size())
-        {
-            ex = this.exerciseList.ITEMS.get(this.currentExerciseIndex);
+            this.currentExerciseIndex++;
+
+            if (this.currentExerciseIndex < this.exercises.exerciseList.size()) {
+                ex = this.exercises.exerciseList.get(this.currentExerciseIndex);
+            }
         }
 
         return ex;
@@ -111,9 +117,9 @@ public class ExerciseActivity extends AppCompatActivity {
     public ExerciseContent.ExerciseItem getCurrentExercise() {
         ExerciseContent.ExerciseItem ex = null;
 
-        if (this.currentExerciseIndex < this.exerciseList.ITEMS.size())
+        if (this.currentExerciseIndex < this.exercises.exerciseList.size())
         {
-            ex = this.exerciseList.ITEMS.get(this.currentExerciseIndex);
+            ex = this.exercises.exerciseList.get(this.currentExerciseIndex);
         }
 
         return ex;

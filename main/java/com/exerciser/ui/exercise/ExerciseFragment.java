@@ -2,6 +2,7 @@ package com.exerciser.ui.exercise;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 stopTimer();
+                showBreakFragment();
             }
         });
 
@@ -66,11 +68,11 @@ public class ExerciseFragment extends Fragment {
             ExerciseContent.ExerciseItem exerciseItem = activity.getCurrentExercise();
             if (exerciseItem.instructions.length() > 0)
             {
-                speak(exerciseItem.instructions);
+                speak(exerciseItem.instructions, TextToSpeech.QUEUE_ADD);
             }
         }
         else if (seconds <= 10 && seconds > 0) {
-            speak(Integer.toString(seconds));
+            speak(Integer.toString(seconds), TextToSpeech.QUEUE_FLUSH);
         } else if ((seconds % 10) == 0) {
 
             ExerciseActivity activity = (ExerciseActivity) getActivity();
@@ -86,7 +88,7 @@ public class ExerciseFragment extends Fragment {
 
             msg += getSecondsRemainingMessage(seconds);
 
-            speak(msg);
+            speak(msg, TextToSpeech.QUEUE_ADD);
         }
     }
 
@@ -123,9 +125,10 @@ public class ExerciseFragment extends Fragment {
         return msg + ".";
     }
 
-    private void speak(String text) {
+    private void speak(String text, int queueAction)
+    {
         ExerciseActivity activity = (ExerciseActivity) getActivity();
-        activity.speak(text);
+        activity.speak(text, queueAction);
     }
 
     private void loadCurrent() {
@@ -134,7 +137,7 @@ public class ExerciseFragment extends Fragment {
         ExerciseContent.ExerciseItem exerciseItem = activity.getCurrentExercise();
         if (null != exerciseItem) {
             setStaticViews(exerciseItem, activity.getTotalExercises());
-            speak("Begin.  Do " + exerciseItem.name + " -- for " + exerciseItem.runSeconds + " seconds");
+            speak("Begin.  Do " + exerciseItem.name + " -- for " + exerciseItem.runSeconds + " seconds", TextToSpeech.QUEUE_ADD);
             startTimer(exerciseItem.runSeconds);
         }
     }

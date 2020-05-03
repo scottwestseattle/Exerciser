@@ -12,27 +12,32 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.security.auth.callback.Callback;
 
 public class HandleXML {
 
     private String name = "";
-    private int order = -1;
     private int runSeconds = -1;
     private int breakSeconds = -1;
     private String description = "";
     private String imageName = "";
     private String urlString = null;
     private XmlPullParserFactory xmlFactoryObject;
-    public volatile boolean parsingComplete = true;
-    ArrayList<ExerciseContent.ExerciseItem> exerciseItems = null;
+    public volatile boolean parsingComplete = false;
+    List<ExerciseContent.ExerciseItem> exerciseItems = null;
 
-    public HandleXML(String url){
+    public HandleXML(String url, List<ExerciseContent.ExerciseItem> exerciseItems) {
+        this.exerciseItems = exerciseItems;
         this.urlString = url;
         this.fetchXML();
     }
 
-    public void fetchXML(){
+    public void fetchXML() {
+
         Thread thread = new Thread(new Runnable(){
+
             @Override
             public void run() {
 
@@ -61,7 +66,8 @@ public class HandleXML {
                 }
 
                 catch (Exception e) {
-                    Log.i("parse: fetchXML", "exception: " + e.getMessage());
+                    Log.i("xml:fetchXML", "exception: " + e.getMessage());
+                    e.printStackTrace();
                 }
             }
         });
@@ -72,6 +78,13 @@ public class HandleXML {
     public void parse(XmlPullParser myParser) {
         int event;
         String text = null;
+        int order = 1;
+
+        // testing data
+        boolean testing = false;
+        int testingRunSeconds = 3;
+        int testingBreakSeconds = 3;
+        int testingExerciseCount = 1;
 
         try {
             event = myParser.getEventType();
@@ -93,9 +106,7 @@ public class HandleXML {
                     case XmlPullParser.END_TAG:
 
                         if(name.equals("record")){
-                            Log.i("parse", "save the record");
-                            if (null == this.exerciseItems)
-                                this.exerciseItems = new ArrayList<ExerciseContent.ExerciseItem>();
+                            //Log.i("parse", "record end tag, save the record");
 
                             ExerciseContent.ExerciseItem ei = new ExerciseContent.ExerciseItem(
                                     this.name,
@@ -103,26 +114,26 @@ public class HandleXML {
                                     this.imageName,
                                     this.runSeconds,
                                     this.breakSeconds,
-                                    this.order,
+                                    order++,
                                     this.description);
 
                             this.exerciseItems.add(ei);
                         }
-                        
+
                         else if (name.equals("name")){
-                            this.name = text;
-                            Log.i("parse", "name value: " + text.trim());
+                            this.name = text.trim();
+                            Log.i("parse", "name value: " + text);
                         }
 
                         else if(name.equals("runSeconds")){
                             try {
-                                this.runSeconds = Integer.parseInt(text);
+                                this.runSeconds = testing ? testingRunSeconds : Integer.parseInt(text);
                             } catch(NumberFormatException nfe){}
                         }
 
                         else if(name.equals("breakSeconds")){
                             try {
-                                this.breakSeconds = Integer.parseInt(text);
+                                this.breakSeconds = testing ? testingBreakSeconds : Integer.parseInt(text);
                             } catch(NumberFormatException nfe){}
                         }
 
@@ -136,25 +147,29 @@ public class HandleXML {
                         }
 
                         else{
+                            // skip all others
                         }
 
                         break;
                 }
 
                 event = myParser.next();
+
+                if (testing && this.exerciseItems.size() >= testingExerciseCount)
+                    break;
             }
 
             parsingComplete = true;
         }
 
         catch (Exception e) {
-            Log.i("parse and store", "exception: " + e.getMessage());
+            Log.i("xml:parse", "exception: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public ArrayList<ExerciseContent.ExerciseItem> getExerciseItems()
+    public boolean isLoaded()
     {
-        return (this.parsingComplete) ? this.exerciseItems : null;
+        return this.parsingComplete;
     }
 }
