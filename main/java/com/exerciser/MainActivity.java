@@ -9,6 +9,8 @@ import android.widget.Button;
 import com.exerciser.ui.exercise.ExerciseActivity;
 import com.exerciser.ui.programs.ProgramsFragment;
 import com.exerciser.ui.programs.program.ProgramContent;
+import com.exerciser.ui.sessions.SessionsActivity;
+import com.exerciser.ui.sessions.SessionsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -69,13 +71,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(ProgramContent.ProgramItem item) {
-        startExercise(item.id);
+        // handle list itme click
+        startSession(item.id);
     }
 
-    public void startExercise(int itemId)
+    public void startSession(int itemId)
     {
-        // handle button click
-        Intent intent = new Intent(this, ExerciseActivity.class);
+        Intent intent = new Intent(this, SessionsActivity.class);
         intent.addFlags(itemId);
         startActivity(intent);
     }

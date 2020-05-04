@@ -1,5 +1,7 @@
 package com.exerciser.ui.sessions.session;
 
+import com.exerciser.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,18 +26,18 @@ public class SessionContent {
         // Add some sample items.
 
         int position = 0;
-        addSession(createSession(position++, "Day 1", "first day"));
-        addSession(createSession(position++, "Day 2", "2nd day"));
-        addSession(createSession(position++, "Day 3", "3rd day"));
-
+        addItem(createItem(797, "Quick Six", "Strength and endurance building", "dolphin_plank.png"));
+        addItem(createItem(842, "May 4", "Next level of endurance", "downward_dog.png"));
+        addItem(createItem(854, "May 5", "Longer and harder work-outs", "plank.png"));
+        addItem(createItem(436, "May 6", "Strong work-out", "dolphin_plank.png"));
     }
 
-    private static void addSession(Session item) {
+    private static void addItem(Session item) {
         ITEMS.add(item);
     }
 
-    private static Session createSession(int position, String name, String description) {
-        return new Session(position, name, description);
+    private static Session createItem(int position, String name, String description, String imageName) {
+        return new Session(position, name, description, imageName);
     }
 
     /**
@@ -45,11 +47,13 @@ public class SessionContent {
         public final int id;
         public final String name;
         public final String description;
+        public final String imageName;
 
-        public Session(int id, String content, String description) {
+        public Session(int id, String content, String description, String imageName) {
             this.id = id;
             this.name = content;
             this.description = description;
+            this.imageName = imageName;
         }
 
         @Override

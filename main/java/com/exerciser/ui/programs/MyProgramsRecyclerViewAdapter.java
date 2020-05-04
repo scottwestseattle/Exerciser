@@ -49,7 +49,6 @@ public class MyProgramsRecyclerViewAdapter
         //sbw holder.mIdView.setText(mValues.get(position).id);
         holder.programName.setText(mValues.get(position).name);
         holder.programDescription.setText(mValues.get(position).description);
-        holder.programPhoto.setImageResource(mValues.get(position).imageId);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +85,8 @@ public class MyProgramsRecyclerViewAdapter
             card_view = (CardView) view.findViewById(R.id.card_view);
             programName = (TextView)itemView.findViewById(R.id.program_name);
             programDescription = (TextView)itemView.findViewById(R.id.program_description);
+
+            /*
             programPhoto = (ImageView)itemView.findViewById(R.id.program_photo);
 
             //
@@ -102,6 +103,8 @@ public class MyProgramsRecyclerViewAdapter
                 }
             });
              //
+
+             */
         }
 
         @Override
