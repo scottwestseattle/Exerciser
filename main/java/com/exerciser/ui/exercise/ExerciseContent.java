@@ -19,8 +19,6 @@ public class ExerciseContent {
      */
     public static List<ExerciseItem> exerciseList = new ArrayList<ExerciseItem>();
 
-    private static final int COUNT = 3;
-
     ExerciseContent(int exerciseId)
     {
         String url = "https://learnfast.xyz/lessons/rss/" + exerciseId;

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,9 +54,9 @@ public class MyProgramsRecyclerViewAdapter
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if (null != mListener) {
-                mListener.onListFragmentInteraction(holder.mItem);
-            }
+                if (null != mListener) {
+                    mListener.onListFragmentInteraction(holder.mItem);
+                }
             }
         });
     }
@@ -87,7 +88,7 @@ public class MyProgramsRecyclerViewAdapter
             programDescription = (TextView)itemView.findViewById(R.id.program_description);
             programPhoto = (ImageView)itemView.findViewById(R.id.program_photo);
 
-            /*
+            //
             final Button button = itemView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,11 +97,11 @@ public class MyProgramsRecyclerViewAdapter
                     button.setBackgroundColor(Color.RED);
 
                     if (null != mListener) {
-                        mListener.onListFragmentInteraction(holder.mItem);
+                        mListener.onListFragmentInteraction(mItem);
                     }
                 }
             });
-             */
+             //
         }
 
         @Override
