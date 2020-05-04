@@ -20,30 +20,21 @@ public class ProgramContent {
      */
     public static final List<ProgramItem> ITEMS = new ArrayList<ProgramItem>();
 
-    /**
-     * A map of sample items, by ID.
-     */
-    public static final Map<String, ProgramItem> ITEM_MAP = new HashMap<String, ProgramItem>();
-
-    private static final int COUNT = 3;
-
     static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-        }
-
-        addItem(createProgramItem(1, "Beginner", "Strength and endurance building",  R.drawable.dolphin_plank));
-        addItem(createProgramItem(2, "Intermediate", "Next level of endurance", R.drawable.downward_dog));
-        addItem(createProgramItem(3, "Advanced", "Longer and harder work-outs", R.drawable.plank));
+        addItem(createProgramItem(797, "Quick Six", "Strength and endurance building",  R.drawable.dolphin_plank));
+        addItem(createProgramItem(842, "May 4", "Next level of endurance", R.drawable.downward_dog));
+        addItem(createProgramItem(854, "May 5", "Longer and harder work-outs", R.drawable.plank));
+        addItem(createProgramItem(436, "May 6", "Strong work-out", R.drawable.dolphin_plank));
+        addItem(createProgramItem(448, "May 7", "Another good one", R.drawable.scissor));
+        addItem(createProgramItem(460, "May 8", "Midweek Heat", R.drawable.plank_cross_tap));
     }
 
     private static void addItem(ProgramItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
     }
 
-    private static ProgramItem createProgramItem(int position, String name, String description, int imageId) {
-        return new ProgramItem(String.valueOf(position), name, description, imageId);
+    private static ProgramItem createProgramItem(int id, String name, String description, int imageId) {
+        return new ProgramItem(id, name, description, imageId);
     }
 
     //sbw: not used
@@ -60,12 +51,12 @@ public class ProgramContent {
      * A program item representing a piece of content.
      */
     public static class ProgramItem {
-        public final String id;
+        public final int id;
         public final String name;
         public final String description;
         public final int imageId;
 
-        public ProgramItem(String id, String name, String description, int imageId) {
+        public ProgramItem(int id, String name, String description, int imageId) {
             this.id = id;
             this.name = name;
             this.imageId = imageId;

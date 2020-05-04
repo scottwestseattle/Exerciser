@@ -60,6 +60,7 @@ public class HandleXML {
                     myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                     myparser.setInput(stream, null);
 
+                    exerciseItems.clear();
                     parse(myparser);
 
                     stream.close();

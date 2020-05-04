@@ -83,7 +83,8 @@ public class ProgramsFragment extends Fragment {
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
-            //sbw throw new RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener");
+            //sbw
+            throw new RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener");
         }
     }
 

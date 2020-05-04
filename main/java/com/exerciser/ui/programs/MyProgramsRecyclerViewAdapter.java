@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.exerciser.R;
+import com.exerciser.ui.exercise.ExerciseActivity;
 import com.exerciser.ui.programs.ProgramsFragment.OnListFragmentInteractionListener;
 import com.exerciser.ui.programs.program.ProgramContent.ProgramItem;
 
@@ -24,16 +25,9 @@ import java.util.List;
  */
 public class MyProgramsRecyclerViewAdapter
         extends RecyclerView.Adapter<MyProgramsRecyclerViewAdapter.ViewHolder>
-        implements ProgramsFragment.OnListFragmentInteractionListener
 {
-
     private final List<ProgramItem> mValues;
     private final OnListFragmentInteractionListener mListener;
-
-    @Override
-    public void onListFragmentInteraction(ProgramItem item) {
-
-    }
 
     public MyProgramsRecyclerViewAdapter(List<ProgramItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
@@ -44,6 +38,7 @@ public class MyProgramsRecyclerViewAdapter
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_programs, parent, false);
+
         return new ViewHolder(view);
     }
 
@@ -58,11 +53,9 @@ public class MyProgramsRecyclerViewAdapter
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+            if (null != mListener) {
+                mListener.onListFragmentInteraction(holder.mItem);
+            }
             }
         });
     }
@@ -94,13 +87,20 @@ public class MyProgramsRecyclerViewAdapter
             programDescription = (TextView)itemView.findViewById(R.id.program_description);
             programPhoto = (ImageView)itemView.findViewById(R.id.program_photo);
 
+            /*
             final Button button = itemView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     button.setBackgroundColor(Color.RED);
+
+                    if (null != mListener) {
+                        mListener.onListFragmentInteraction(holder.mItem);
+                    }
                 }
             });
+             */
         }
 
         @Override

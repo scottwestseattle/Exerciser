@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.widget.Button;
 
 import com.exerciser.ui.exercise.ExerciseActivity;
+import com.exerciser.ui.programs.ProgramsFragment;
+import com.exerciser.ui.programs.program.ProgramContent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -30,7 +32,9 @@ Program List (Beginner, Intermediate, Advanced)
             End / Summary
 */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements ProgramsFragment.OnListFragmentInteractionListener
+{
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -45,10 +49,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-
-                // handle button click
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
 
@@ -63,14 +65,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        startExercise();
     }
 
-    public void startExercise()
+    @Override
+    public void onListFragmentInteraction(ProgramContent.ProgramItem item) {
+        startExercise(item.id);
+    }
+
+    public void startExercise(int itemId)
     {
         // handle button click
         Intent intent = new Intent(this, ExerciseActivity.class);
+        intent.addFlags(itemId);
         startActivity(intent);
     }
 

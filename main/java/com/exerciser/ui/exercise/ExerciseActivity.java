@@ -18,7 +18,7 @@ import java.util.Locale;
 
 public class ExerciseActivity extends AppCompatActivity {
 
-    public static final ExerciseContent exercises = new ExerciseContent();
+    public static ExerciseContent exercises = null;
     public int currentExerciseIndex = -1;
     public TextToSpeech tts = null;
     public boolean isSpeechLoaded = false;
@@ -40,7 +40,6 @@ public class ExerciseActivity extends AppCompatActivity {
         });
 
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
@@ -59,6 +58,9 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
             }
         });
+
+        int exerciseId = getIntent().getFlags();
+        exercises = new ExerciseContent(exerciseId);
     }
 
     public void reset()

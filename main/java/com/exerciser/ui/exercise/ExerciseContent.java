@@ -21,10 +21,13 @@ public class ExerciseContent {
 
     private static final int COUNT = 3;
 
-    static {
-        String url = "https://learnfast.xyz/lessons/rss/801";
+    ExerciseContent(int exerciseId)
+    {
+        String url = "https://learnfast.xyz/lessons/rss/" + exerciseId;
         Log.i("parse", "Get Exercises from RSS...");
         xml = new HandleXML(url, exerciseList);
+    }
+    static {
     }
 
     private static void addItem(ExerciseItem item) {
