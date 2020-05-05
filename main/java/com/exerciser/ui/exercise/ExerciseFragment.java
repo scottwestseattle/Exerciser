@@ -107,10 +107,10 @@ public class ExerciseFragment extends Fragment {
                 msg = Integer.toString(seconds) + " more seconds";
                 break;
             case 3:
-                msg = "Only " + Integer.toString(seconds) + " more seconds";
+                msg = "Go for " + Integer.toString(seconds) + " more seconds";
                 break;
             case 4:
-                msg = "Keep it up for " + Integer.toString(seconds) + " more seconds";
+                msg = "Keep it up for " + Integer.toString(seconds) + " seconds longer";
                 break;
             case 5:
                 msg = "Keep going for " + Integer.toString(seconds) + " more seconds";
@@ -119,7 +119,7 @@ public class ExerciseFragment extends Fragment {
                 msg = "Continue for " + Integer.toString(seconds) + " seconds longer";
                 break;
             default:
-                msg = Integer.toString(seconds) + " seconds (random error)";
+                msg = Integer.toString(seconds) + " seconds, random message out of range";
         }
 
         return msg + ".";

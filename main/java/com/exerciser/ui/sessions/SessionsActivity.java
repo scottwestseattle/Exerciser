@@ -39,7 +39,8 @@ public class SessionsActivity extends AppCompatActivity implements SessionsFragm
         // start the selected exercise
         //
         Intent intent = new Intent(this, ExerciseActivity.class);
-        intent.addFlags(item.id);
+        intent.putExtra("sessionName", item.name);
+        intent.putExtra("sessionId", item.id);
         startActivity(intent);
     }
 }

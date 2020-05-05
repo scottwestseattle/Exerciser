@@ -29,9 +29,15 @@ public class ExerciseActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int exerciseId = getIntent().getIntExtra("sessionId", -1);
+        String title = getIntent().getStringExtra("sessionName");
+        exercises = new ExerciseContent(exerciseId);
+        title += ": " + exercises.exerciseList.size() + " exercises, Time: " + exercises.getTotalTime();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(title);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -63,8 +69,6 @@ public class ExerciseActivity extends AppCompatActivity  {
             }
         });
 
-        int exerciseId = getIntent().getFlags();
-        exercises = new ExerciseContent(exerciseId);
     }
 
     public void reset()

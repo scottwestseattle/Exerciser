@@ -3,6 +3,7 @@ package com.exerciser.ui.exercise;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ExerciseContent {
@@ -23,6 +24,21 @@ public class ExerciseContent {
         Log.i("parse", "Get Exercises from RSS...");
         xml = new HandleXML(url, exerciseList);
     }
+
+    public String getTotalTime() {
+
+        float totalSeconds = 0.0f;
+
+        Iterator<ExerciseItem> iterator = this.exerciseList.iterator();
+        while (iterator.hasNext()) {
+            ExerciseItem e = iterator.next();
+            totalSeconds += e.runSeconds;
+            totalSeconds += e.breakSeconds;
+        }
+
+        return Float.toString(totalSeconds / 60.0f);
+    }
+
 
     private static void addItem(ExerciseItem item) {
         exerciseList.add(item);

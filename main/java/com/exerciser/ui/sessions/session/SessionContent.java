@@ -17,10 +17,6 @@ public class SessionContent {
 
     private static RssReader rss = null;
     public static int courseId = -1;
-
-    /**
-     * The array of items from the rss feed
-     */
     public static List<SessionContent.Session> sessionList = new ArrayList<SessionContent.Session>();
 
     public SessionContent(int courseId)
@@ -28,6 +24,7 @@ public class SessionContent {
         //
         // todo: the rss is read again here because I couldn't figure out how to pass in the data from the programs read
         //
+        sessionList.clear();
         this.courseId = courseId;
         String url = "https://learnfast.xyz/courses/rss";
         Log.i("parse", "Getting Session list from rss...");
