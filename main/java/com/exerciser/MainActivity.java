@@ -34,11 +34,19 @@ Program List (Beginner, Intermediate, Advanced)
             End / Summary
 */
 
-public class MainActivity extends AppCompatActivity
-        implements ProgramsFragment.OnListFragmentInteractionListener
+public class MainActivity extends AppCompatActivity implements ProgramsFragment.OnListFragmentInteractionListener
 {
-
     private AppBarConfiguration mAppBarConfiguration;
+
+    @Override
+    public void onListFragmentInteraction(ProgramContent.ProgramItem item) {
+        //
+        // handle click from Program list: load Sessions
+        //
+        Intent intent = new Intent(this, SessionsActivity.class);
+        intent.putExtra("courseId", item.id);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,19 +75,6 @@ public class MainActivity extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-    }
-
-    @Override
-    public void onListFragmentInteraction(ProgramContent.ProgramItem item) {
-        // handle list itme click
-        startSession(item.id);
-    }
-
-    public void startSession(int itemId)
-    {
-        Intent intent = new Intent(this, SessionsActivity.class);
-        intent.addFlags(itemId);
-        startActivity(intent);
     }
 
     @Override

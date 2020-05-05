@@ -1,5 +1,6 @@
 package com.exerciser.ui.programs;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.exerciser.MainActivity;
 import com.exerciser.R;
 import com.exerciser.ui.programs.program.ProgramContent;
 import com.exerciser.ui.programs.program.ProgramContent.ProgramItem;
@@ -71,7 +73,7 @@ public class ProgramsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyProgramsRecyclerViewAdapter(ProgramContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyProgramsRecyclerViewAdapter(ProgramContent.programList, mListener));
         }
 
         return view;

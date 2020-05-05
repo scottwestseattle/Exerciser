@@ -1,37 +1,46 @@
 package com.exerciser.ui.programs.program;
 
-import com.exerciser.R;
+import android.util.Log;
+
+import com.exerciser.RssReader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Class for holding list data item
- * Android template wizards.
- * <p>
- * TODO: Replace all uses of this class before publishing your app.
+ * Program data class
+ * Handles reading of data from xml rss
  */
 public class ProgramContent {
 
+    private static RssReader rss = null;
+
     /**
-     * An array of list items.
+     * The array of items from the rss feed
      */
-    public static final List<ProgramItem> ITEMS = new ArrayList<ProgramItem>();
+    public static List<ProgramContent.ProgramItem> programList = new ArrayList<ProgramContent.ProgramItem>();
+
+    ProgramContent()
+    {
+    }
 
     static {
-        addItem(createProgramItem(14, "Plancha", "Una excelente mezcla de ejercicios clásicos de yoga, pilates, plancha y mucho más.",  R.drawable.dolphin_plank));
-        addItem(createProgramItem(17, "Intermediate", "Next level of endurance", R.drawable.downward_dog));
-        addItem(createProgramItem(18, "Respiración Profunda", "Breathing exercises.", R.drawable.plank));
+        String url = "https://learnfast.xyz/courses/rss";
+        Log.i("parse", "Getting program list from rss...");
+        rss = new RssReader(url);
+        rss.fetchProgramList(programList);
     }
 
     private static void addItem(ProgramItem item) {
-        ITEMS.add(item);
+        programList.add(item);
     }
 
     private static ProgramItem createProgramItem(int id, String name, String description, int imageId) {
         return new ProgramItem(id, name, description, imageId);
+    }
+
+    public boolean isLoaded() {
+        return (null != rss && rss.isLoaded());
     }
 
     /**

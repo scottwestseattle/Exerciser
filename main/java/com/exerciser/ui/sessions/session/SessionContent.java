@@ -1,11 +1,11 @@
 package com.exerciser.ui.sessions.session;
 
-import com.exerciser.R;
+import android.util.Log;
+
+import com.exerciser.RssReader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -15,29 +15,35 @@ import java.util.Map;
  */
 public class SessionContent {
 
-    /**
-     * An array of sample (dummy) items.
-     */
-    public static final List<Session> ITEMS = new ArrayList<Session>();
+    private static RssReader rss = null;
+    public static int courseId = -1;
 
-    private static final int COUNT = 25;
+    /**
+     * The array of items from the rss feed
+     */
+    public static List<SessionContent.Session> sessionList = new ArrayList<SessionContent.Session>();
+
+    public SessionContent(int courseId)
+    {
+        //
+        // todo: the rss is read again here because I couldn't figure out how to pass in the data from the programs read
+        //
+        this.courseId = courseId;
+        String url = "https://learnfast.xyz/courses/rss";
+        Log.i("parse", "Getting Session list from rss...");
+        rss = new RssReader(url);
+        rss.fetchSessionList(sessionList, courseId);
+    }
 
     static {
-        // Add some sample items.
-
-        int position = 0;
-        addItem(createItem(797, "Quick Six", "Strength and endurance building", "dolphin_plank.png"));
-        addItem(createItem(842, "May 4", "Next level of endurance", "downward_dog.png"));
-        addItem(createItem(854, "May 5", "Longer and harder work-outs", "plank.png"));
-        addItem(createItem(436, "May 6", "Strong work-out", "dolphin_plank.png"));
     }
 
     private static void addItem(Session item) {
-        ITEMS.add(item);
+        sessionList.add(item);
     }
 
-    private static Session createItem(int position, String name, String description, String imageName) {
-        return new Session(position, name, description, imageName);
+    private static Session createItem(int id, String name, String description, int number) {
+        return new Session(id, name, description, number);
     }
 
     /**
@@ -45,15 +51,15 @@ public class SessionContent {
      */
     public static class Session {
         public final int id;
+        public final int number;
         public final String name;
         public final String description;
-        public final String imageName;
 
-        public Session(int id, String content, String description, String imageName) {
+        public Session(int id, String name, String description, int number) {
             this.id = id;
-            this.name = content;
+            this.number = number;
+            this.name = name;
             this.description = description;
-            this.imageName = imageName;
         }
 
         @Override

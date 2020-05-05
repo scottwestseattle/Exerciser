@@ -70,7 +70,15 @@ public class SessionsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MySessionsRecyclerViewAdapter(SessionContent.ITEMS, mListener));
+
+            //
+            // call up to the activity to get the course id that was saved during the call from the main activity list
+            // todo: where should this be done?
+            //
+            SessionsActivity a = (SessionsActivity) getActivity();
+            SessionContent sessionContent = new SessionContent(a.courseId);
+
+            recyclerView.setAdapter(new MySessionsRecyclerViewAdapter(sessionContent.sessionList, mListener));
         }
         return view;
     }
@@ -80,10 +88,10 @@ public class SessionsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
+            // the listener lives in SessionActivity
             mListener = (OnListFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener");
         }
     }
 

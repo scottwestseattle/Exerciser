@@ -74,6 +74,14 @@ public class HandleXML {
         });
 
         thread.start();
+
+        try {
+            thread.join(); // wait for the thread to finish
+        } catch (InterruptedException e) {
+            Log.e("rss thread", e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
     public void parse(XmlPullParser myParser) {

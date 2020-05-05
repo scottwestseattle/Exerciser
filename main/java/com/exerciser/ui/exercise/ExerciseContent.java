@@ -3,9 +3,7 @@ package com.exerciser.ui.exercise;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ExerciseContent {
 
@@ -15,7 +13,7 @@ public class ExerciseContent {
     private static HandleXML xml = null;
 
     /**
-     * An array of sample items.
+     * The array of items from the rss feed
      */
     public static List<ExerciseItem> exerciseList = new ArrayList<ExerciseItem>();
 
@@ -24,8 +22,6 @@ public class ExerciseContent {
         String url = "https://learnfast.xyz/lessons/rss/" + exerciseId;
         Log.i("parse", "Get Exercises from RSS...");
         xml = new HandleXML(url, exerciseList);
-    }
-    static {
     }
 
     private static void addItem(ExerciseItem item) {
