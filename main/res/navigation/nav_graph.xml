@@ -3,26 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/StartFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.exerciser.ui.exercise.BreakFragment"
+        android:id="@+id/StartFragment"
+        android:name="com.exerciser.ui.exercise.StartFragment"
         android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_start">
+
+        <action
+            android:id="@+id/action_StartFragment_to_BreakFragment"
+            app:destination="@id/BreakFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/BreakFragment"
+        android:name="com.exerciser.ui.exercise.BreakFragment"
+        android:label="Break Fragment"
         tools:layout="@layout/fragment_break">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_BreakFragment_to_ExerciseFragment"
+            app:destination="@id/ExerciseFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/ExerciseFragment"
         android:name="com.exerciser.ui.exercise.ExerciseFragment"
-        android:label="@string/second_fragment_label"
+        android:label="Exercise Fragment"
         tools:layout="@layout/fragment_exercise">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_ExerciseFragment_to_BreakFragment"
+            app:destination="@id/BreakFragment" />
     </fragment>
 </navigation>

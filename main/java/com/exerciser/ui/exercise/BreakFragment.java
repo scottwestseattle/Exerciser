@@ -1,5 +1,6 @@
 package com.exerciser.ui.exercise;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.exerciser.R;
 
@@ -79,12 +81,13 @@ public class BreakFragment extends Fragment {
         public void run() {
 
             ExerciseActivity activity = (ExerciseActivity) getActivity();
-            if (activity.isLoaded()) {
-                start();
-            }
-            else {
-                Log.i("startup", "waiting one second");
-                handler.postDelayed(startUp, second); // update in 1 second
+            if (null != activity) {
+                if (activity.isLoaded()) {
+                    start();
+                } else {
+                    Log.i("startup", "waiting one second");
+                    handler.postDelayed(startUp, second); // update in 1 second
+                }
             }
         }
     };
@@ -108,7 +111,10 @@ public class BreakFragment extends Fragment {
             if (started) {
                 speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
                 stop();
-                ((ExerciseActivity) getActivity()).end();
+
+                ExerciseActivity activity = (ExerciseActivity) getActivity();
+                if (null != activity)
+                    activity.end();
             }
             else
                 start();
@@ -163,17 +169,17 @@ public class BreakFragment extends Fragment {
 
     private void start() {
         ExerciseActivity activity = (ExerciseActivity) getActivity();
-
-        if (activity.isLoaded()) {
-            activity.speak(getRandomMessage(startMsgs), TextToSpeech.QUEUE_ADD);
-            this.started = true;
-            activity.reset();
-            loadNext();
-            setButtonText("Stop", R.id.button_start);
-        }
-        else {
-            activity.speak("Wait for exercises to finish loading...", TextToSpeech.QUEUE_ADD);
-            handler.postDelayed(this.startUp, this.second); // wait 1 second
+        if (null != activity) {
+            if (activity.isLoaded()) {
+                activity.speak(getRandomMessage(startMsgs), TextToSpeech.QUEUE_ADD);
+                this.started = true;
+                activity.reset();
+                loadNext();
+                setButtonText("Stop", R.id.button_start);
+            } else {
+                activity.speak("Wait for exercises to finish loading...", TextToSpeech.QUEUE_ADD);
+                handler.postDelayed(this.startUp, this.second); // wait 1 second
+            }
         }
     }
 
@@ -191,6 +197,9 @@ public class BreakFragment extends Fragment {
 
     private void loadNext() {
         ExerciseActivity activity = (ExerciseActivity) getActivity();
+        if (null == activity)
+            return;
+
         ExerciseContent.ExerciseItem exerciseItem = activity.getNextExercise();
 
         if (null != exerciseItem)
@@ -238,7 +247,9 @@ public class BreakFragment extends Fragment {
     }
 
     private void showExerciseFragment() {
-        NavHostFragment.findNavController(BreakFragment.this).navigate(R.id.action_FirstFragment_to_SecondFragment);
+        NavController controller = NavHostFragment.findNavController(BreakFragment.this);
+        if (null != controller)
+            controller.navigate(R.id.action_BreakFragment_to_ExerciseFragment);
     }
 
     private void stopTimer() {
@@ -248,9 +259,12 @@ public class BreakFragment extends Fragment {
     private void updateTimerDisplay(int seconds)
     {
         if (seconds > 0) {
-            TextView countDown = this.getView().findViewById(R.id.textview_countdown);
-            if (null != countDown)
-                countDown.setText(Integer.toString(seconds));
+            View view = this.getView();
+            if (null != view) {
+                TextView countDown = view.findViewById(R.id.textview_countdown);
+                if (null != countDown)
+                    countDown.setText(Integer.toString(seconds));
+            }
         }
     }
     
@@ -298,12 +312,14 @@ public class BreakFragment extends Fragment {
 
     private void speak(String text, int queueAction) {
         ExerciseActivity activity = (ExerciseActivity) getActivity();
-        activity.speak(text, queueAction);
+        if (null != activity)
+            activity.speak(text, queueAction);
     }
 
     private void shutup() {
         ExerciseActivity activity = (ExerciseActivity) getActivity();
-        activity.shutup();
+        if (null != activity)
+            activity.shutup();
     }
 
 }

@@ -179,7 +179,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     private void showBreakFragment() {
-        NavHostFragment.findNavController(ExerciseFragment.this).navigate(R.id.action_SecondFragment_to_FirstFragment);
+        NavHostFragment.findNavController(ExerciseFragment.this).navigate(R.id.action_ExerciseFragment_to_BreakFragment);
     }
 
     private void startTimer(int seconds)
@@ -222,8 +222,11 @@ public class ExerciseFragment extends Fragment {
 
     private void updateTimerDisplay(int seconds)
     {
-        TextView countDown = this.getView().findViewById(R.id.textview_countdown);
-        if (null != countDown)
-            countDown.setText(Integer.toString(seconds));
+        View view = this.getView();
+        if (null != view) {
+            TextView countDown = view.findViewById(R.id.textview_countdown);
+            if (null != countDown)
+                countDown.setText(Integer.toString(seconds));
+        }
     }
 }
