@@ -6,6 +6,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,29 +20,7 @@ import java.util.Random;
 
 public class ExerciseFragment extends Fragment {
 
-    @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exercise, container, false);
-    }
-
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        view.findViewById(R.id.button_end).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stopTimer();
-                showBreakFragment();
-            }
-        });
-
-        loadCurrent();
-    }
-
+    private boolean timerPaused = false;
     private int secondsRemaining = -1;
     private final int second = 1000; // 1 Second
     private Handler handler = new Handler();
@@ -60,6 +39,63 @@ public class ExerciseFragment extends Fragment {
             }
         }
     };
+
+    @Override
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState
+    ) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_exercise, container, false);
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ExerciseActivity) getActivity()).shutup();
+                stopTimer();
+                showBreakFragment();
+            }
+        });
+
+        view.findViewById(R.id.button_pause).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (timerPaused) {
+                    setButtonText("Pause", R.id.button_pause);
+                    speak("Continued.  ", TextToSpeech.QUEUE_FLUSH);
+                    startTimer(secondsRemaining); // restart timer
+                }
+                else {
+                    setButtonText("Continue", R.id.button_pause);
+                    speak("paused.  ", TextToSpeech.QUEUE_FLUSH);
+                    stopTimer();
+                }
+
+                timerPaused = !timerPaused;
+            }
+        });
+
+        view.findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
+                stopTimer();
+                ((ExerciseActivity) getActivity()).end();
+            }
+        });
+
+        loadCurrent();
+    }
+
+    private void setButtonText(String text, int buttonId) {
+        Button button = this.getView().findViewById(buttonId);
+        if (null != button)
+            button.setText(text);
+    }
 
     private void updateTimerAudio(int seconds) {
         if (seconds == 11)

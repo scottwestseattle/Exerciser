@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.exerciser.ui.programs.ProgramsFragment;
+import com.exerciser.ui.sessions.SessionsActivity;
 import com.exerciser.ui.sessions.SessionsFragment;
 import com.exerciser.ui.sessions.session.SessionContent;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -26,6 +28,7 @@ public class ExerciseActivity extends AppCompatActivity  {
     public int currentExerciseIndex = -1;
     public TextToSpeech tts = null;
     public boolean isSpeechLoaded = false;
+    public int programId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +80,26 @@ public class ExerciseActivity extends AppCompatActivity  {
     }
 
     public void speak(String text, int queueAction) {
-
         int speechStatus = tts.speak(text, queueAction, null);
         if (speechStatus == TextToSpeech.ERROR) {
             Log.i("TTS", "Error in converting Text to Speech!");
         }
     }
 
+    public void shutup() {
+        if (tts.isSpeaking())
+            tts.stop();
+    }
+
     public boolean isLoaded() {
         return null != this.tts && this.isSpeechLoaded && this.exercises.isLoaded();
+    }
+
+    public void end() {
+        Intent intent = new Intent(this, SessionsActivity.class);
+        this.programId = 14;
+        intent.putExtra("courseId", programId);
+        startActivity(intent);
     }
 
     public int getTotalExercises() {

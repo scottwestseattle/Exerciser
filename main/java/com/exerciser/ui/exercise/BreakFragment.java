@@ -30,6 +30,7 @@ public class BreakFragment extends Fragment {
     private final int countdownSeconds = 5;
     private final int getReadySeconds = countdownSeconds + 1;
     private Handler handler = new Handler();
+    private boolean timerPaused = false;
 
     String startMsgs[] = {
             "Okay fat boy, Here we go!",
@@ -104,13 +105,46 @@ public class BreakFragment extends Fragment {
         view.findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //sbw NavHostFragment.findNavController(BreakFragment.this)
-                //sbw         .navigate(R.id.action_FirstFragment_to_SecondFragment);
+            if (started) {
+                speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
+                stop();
+                ((ExerciseActivity) getActivity()).end();
+            }
+            else
+                start();
+            }
+        });
 
-                if (started)
-                    stop();
-                else
+        view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (started) {
+                    shutup();
+                    stopTimer();
+                    showExerciseFragment();
+                }
+                else {
                     start();
+                }
+
+            }
+        });
+
+        view.findViewById(R.id.button_pause).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (timerPaused) {
+                    setButtonText("Pause", R.id.button_pause);
+                    speak("Continued.  ", TextToSpeech.QUEUE_FLUSH);
+                    startTimer(secondsRemaining); // restart timer
+                }
+                else {
+                    setButtonText("Continue", R.id.button_pause);
+                    speak("paused.  ", TextToSpeech.QUEUE_FLUSH);
+                    stopTimer();
+                }
+
+                timerPaused = !timerPaused;
             }
         });
 
@@ -135,7 +169,7 @@ public class BreakFragment extends Fragment {
             this.started = true;
             activity.reset();
             loadNext();
-            setButtonText("Stop");
+            setButtonText("Stop", R.id.button_start);
         }
         else {
             activity.speak("Wait for exercises to finish loading...", TextToSpeech.QUEUE_ADD);
@@ -146,12 +180,11 @@ public class BreakFragment extends Fragment {
     private void stop() {
         this.started = false;
         stopTimer();
-        speak("Stopped", TextToSpeech.QUEUE_FLUSH);
-        setButtonText("Start");
+        setButtonText("Start", R.id.button_start);
     }
 
-    private void setButtonText(String text) {
-        Button button = this.getView().findViewById(R.id.button_start);
+    private void setButtonText(String text, int buttonId) {
+        Button button = this.getView().findViewById(buttonId);
         if (null != button)
             button.setText(text);
     }
@@ -187,7 +220,7 @@ public class BreakFragment extends Fragment {
             // start
             setStaticViews(activity, exerciseItem, title);
             startTimer(seconds);
-            setButtonText("Stop");
+            setButtonText("Stop", R.id.button_start);
         }
         else {
             // end
@@ -267,4 +300,10 @@ public class BreakFragment extends Fragment {
         ExerciseActivity activity = (ExerciseActivity) getActivity();
         activity.speak(text, queueAction);
     }
+
+    private void shutup() {
+        ExerciseActivity activity = (ExerciseActivity) getActivity();
+        activity.shutup();
+    }
+
 }

@@ -3,9 +3,11 @@ package com.exerciser.ui.sessions;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.exerciser.R;
@@ -79,6 +81,18 @@ public class MySessionsRecyclerViewAdapter extends RecyclerView.Adapter<MySessio
             programName = (TextView)itemView.findViewById(R.id.program_name);
             programDescription = (TextView)itemView.findViewById(R.id.program_description);
 
+            final Button button = itemView.findViewById(R.id.button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    button.setBackgroundColor(Color.RED);
+
+                    if (null != mListener) {
+                        mListener.onListFragmentInteraction(mItem);
+                    }
+                }
+            });
         }
 
         @Override
