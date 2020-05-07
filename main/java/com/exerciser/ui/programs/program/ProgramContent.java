@@ -35,8 +35,8 @@ public class ProgramContent {
         programList.add(item);
     }
 
-    private static ProgramItem createProgramItem(int id, String name, String description, int imageId) {
-        return new ProgramItem(id, name, description, imageId);
+    private static ProgramItem createProgramItem(int id, String name, String description, int imageId, int sessionCount) {
+        return new ProgramItem(id, name, description, imageId, sessionCount);
     }
 
     public boolean isLoaded() {
@@ -51,12 +51,14 @@ public class ProgramContent {
         public final String name;
         public final String description;
         public final int imageId;
+        public final int sessionCount;
 
-        public ProgramItem(int id, String name, String description, int imageId) {
+        public ProgramItem(int id, String name, String description, int imageId, int sessionCount) {
             this.id = id;
             this.name = name;
             this.imageId = imageId;
             this.description = description;
+            this.sessionCount = sessionCount;
         }
 
         @Override

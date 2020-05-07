@@ -14,6 +14,8 @@ import com.exerciser.R;
 import com.exerciser.ui.sessions.SessionsFragment.OnListFragmentInteractionListener;
 import com.exerciser.ui.sessions.session.SessionContent.Session;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -41,8 +43,14 @@ public class MySessionsRecyclerViewAdapter extends RecyclerView.Adapter<MySessio
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.programName.setText(mValues.get(position).name);
-        holder.programDescription.setText(mValues.get(position).description);
+        holder.dayNumber.setText(Integer.toString(position + 1));
+
+        String name = holder.mItem.exerciseCount + " exercises";
+        holder.programName.setText(name);
+
+        String time = new SimpleDateFormat("mm:ss").format(new Date(((long) holder.mItem.seconds) * 1000));
+        String description = "Total Time: " + time;
+        holder.programDescription.setText(description);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,23 +71,21 @@ public class MySessionsRecyclerViewAdapter extends RecyclerView.Adapter<MySessio
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        //orig: public final TextView mIdView;
-        //Orig: public final TextView mContentView;
         public Session mItem;
 
         CardView card_view;
         TextView programName;
         TextView programDescription;
+        TextView dayNumber;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            //orig: mIdView = (TextView) view.findViewById(R.id.item_number);
-            //orig: mContentView = (TextView) view.findViewById(R.id.content);
 
             card_view = (CardView) view.findViewById(R.id.card_view);
             programName = (TextView)itemView.findViewById(R.id.program_name);
             programDescription = (TextView)itemView.findViewById(R.id.program_description);
+            dayNumber = (TextView)itemView.findViewById(R.id.day_number);
 
             final Button button = itemView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {

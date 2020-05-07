@@ -11,12 +11,12 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:id="@+id/card_view"
-        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardBackgroundColor="@color/colorAccent"
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="wrap_content"
             android:padding="16dp">
 
             <TextView
@@ -29,9 +29,20 @@
 
             <TextView
                 android:id="@+id/program_description"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/program_name"
+                />
+
+            <TextView
+                android:id="@+id/session_count"
+                android:text="TextView"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/program_description"
                 />
 
         </RelativeLayout>

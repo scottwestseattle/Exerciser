@@ -6,60 +6,99 @@
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/card_view"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="7dp"
         app:cardBackgroundColor="@color/cardview_light_background"
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:padding="0dp">
 
-            <ImageView
+            <!-- ImageView
                 android:id="@+id/program_photo"
                 android:layout_width="200px"
                 android:layout_height="200px"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
+                / -->
+
+            <RelativeLayout
+                android:id="@+id/left_layout"
+                android:layout_width="wrap_content"
+                android:minWidth="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:background="@color/design_default_color_secondary"
+                android:layout_marginRight="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/day_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Day"
+                    android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/day_number"
+                android:text="99"
+                android:textSize="75dp"
+                android:paddingTop="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/day_label"
                 />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/right_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/left_layout"
+                >
 
             <TextView
                 android:id="@+id/program_name"
+                android:text="Session List Item"
+                android:textSize="24sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/program_photo"
-                android:textSize="30sp"
-                android:text="Session List Item"
+                android:layout_centerHorizontal="true"
                 />
 
             <TextView
                 android:id="@+id/program_description"
+                android:text="Description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_below="@+id/program_name"
-                android:layout_toRightOf="@+id/program_photo"
                 />
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
-                android:layout_marginRight="14dp"
-                android:layout_marginBottom="9dp"
-                android:layout_marginTop="10dp"
                 android:layout_below="@+id/program_description"
-                android:layout_toRightOf="@+id/program_photo"
-                android:text="Start"
                 android:background="@color/colorPrimary"
-                android:textColor="@color/cardview_light_background"
-                />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="Start"
+                android:textColor="@color/cardview_light_background" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 

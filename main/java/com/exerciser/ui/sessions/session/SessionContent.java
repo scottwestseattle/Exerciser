@@ -39,9 +39,12 @@ public class SessionContent {
         sessionList.add(item);
     }
 
+    /*
     private static Session createItem(int id, String name, String description, int number) {
         return new Session(id, name, description, number);
     }
+    */
+
 
     /**
      * A dummy item representing a piece of content.
@@ -51,12 +54,18 @@ public class SessionContent {
         public final int number;
         public final String name;
         public final String description;
+        public final String parent;
+        public final int seconds;
+        public final int exerciseCount;
 
-        public Session(int id, String name, String description, int number) {
+        public Session(int id, String name, String description, int number, String parent, int seconds, int exerciseCount) {
             this.id = id;
             this.number = number;
             this.name = name;
             this.description = description;
+            this.parent = parent;
+            this.seconds = seconds;
+            this.exerciseCount = exerciseCount;
         }
 
         @Override

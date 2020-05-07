@@ -18,12 +18,16 @@ public class RssReader {
     private String programName = "";
     private int programId = -1;
     private String programDescription = "";
+    private int sessionCount = 0;
 
     private int courseId = -1;
     private int sessionId = -1;
     private int sessionNumber = -1;
     private String sessionName = "";
     private String sessionDescription = "";
+    private int sessionExerciseCount = -1;
+    private int sessionSeconds = -1;
+    private String sessionParentName = "";
 
     private String urlString = null;
     private XmlPullParserFactory xmlFactoryObject;
@@ -123,9 +127,14 @@ public class RssReader {
                                 ProgramContent.ProgramItem item = new ProgramContent.ProgramItem(
                                         this.programId,
                                         this.programName,
-                                        this.programDescription, -1);
+                                        this.programDescription,
+                                        -1,
+                                        this.sessionCount
+                                        );
 
                                 this.programItems.add(item);
+
+                                this.sessionCount = 0; // re-start the count
                             }
                         }
                         else if (name.equals("course_name")){
@@ -140,12 +149,18 @@ public class RssReader {
                             this.programDescription = text.trim();
                         }
                         else if(name.equals("lesson")){
+
+                            this.sessionCount++; // count the session from the program list
+
                             if (null != this.sessionItems && -1 != this.courseId && this.programId == this.courseId) {
                                 SessionContent.Session item = new SessionContent.Session(
                                         this.sessionId,
                                         this.sessionName,
                                         this.sessionDescription,
-                                        this.sessionNumber
+                                        this.sessionNumber,
+                                        this.sessionParentName,
+                                        this.sessionSeconds,
+                                        this.sessionExerciseCount
                                 );
 
                                 this.sessionItems.add(item);
@@ -162,9 +177,22 @@ public class RssReader {
                         else if(name.equals("lesson_description")){
                             this.sessionDescription = text.trim();
                         }
+                        else if(name.equals("lesson_parent")){
+                            this.sessionParentName = text.trim();
+                        }
                         else if(name.equals("lesson_number")){
                             try {
                                 this.sessionNumber = Integer.parseInt(text);
+                            } catch(NumberFormatException nfe){}
+                        }
+                        else if(name.equals("lesson_exercise_count")){
+                            try {
+                                this.sessionExerciseCount = Integer.parseInt(text);
+                            } catch(NumberFormatException nfe){}
+                        }
+                        else if(name.equals("lesson_seconds")){
+                            try {
+                                this.sessionSeconds = Integer.parseInt(text);
                             } catch(NumberFormatException nfe){}
                         }
                         else{

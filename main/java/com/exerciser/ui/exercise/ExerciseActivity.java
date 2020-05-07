@@ -50,41 +50,44 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // get the data
         int exerciseId = getIntent().getIntExtra("sessionId", -1);
-        String title = getIntent().getStringExtra("sessionName");
         exercises = new ExerciseContent(exerciseId);
-        title += ": " + exercises.exerciseList.size() + " exercises, Time: " + exercises.getTotalTime();
+
+        // set the toolbar caption
+        String title = getIntent().getStringExtra("sessionName");
+        String subTitle = exercises.exerciseList.size() + " exercises, Time: " + exercises.getTotalTime();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(title);
+        toolbar.setSubtitle(subTitle);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String msg = "TTS not set.";
-                if (null != tts)
-                {
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                        Set<Voice> voices = tts.getVoices();
-                        String name = tts.getVoice().getName();
-                        msg = "Voice: " + name;
-                        msg += " (" + Integer.toString(voices.size());
-                        int count = 0;
-                        for (Voice voice : voices) {
-                            String lang = voice.getLocale().getLanguage().toString();
-                            if (count++ < 5)
-                                msg += ", " + lang;
-                        }
-                        msg += ")";
+            String msg = "TTS not set.";
+            if (null != tts)
+            {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    Set<Voice> voices = tts.getVoices();
+                    String name = tts.getVoice().getName();
+                    msg = "Voice: " + name;
+                    msg += " (" + Integer.toString(voices.size());
+                    int count = 0;
+                    for (Voice voice : voices) {
+                        String lang = voice.getLocale().getLanguage().toString();
+                        if (count++ < 5)
+                            msg += ", " + lang;
                     }
+                    msg += ")";
                 }
+            }
 
-                Snackbar.make(view, msg, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(view, msg, Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 

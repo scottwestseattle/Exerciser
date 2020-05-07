@@ -46,9 +46,13 @@ public class MyProgramsRecyclerViewAdapter
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        //sbw holder.mIdView.setText(mValues.get(position).id);
         holder.programName.setText(mValues.get(position).name);
         holder.programDescription.setText(mValues.get(position).description);
+
+        // show number of sessions
+        int cnt = mValues.get(position).sessionCount;
+        String sessionCount = Integer.toString(cnt) + ((cnt == 1) ? " session" : " sessions");
+        holder.sessionCount.setText(sessionCount);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,24 +71,20 @@ public class MyProgramsRecyclerViewAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        //orig public final TextView mIdView;
-        //orig public final TextView mContentView;
         public ProgramItem mItem;
 
         CardView card_view;
         TextView programName;
         TextView programDescription;
-        ImageView programPhoto;
+        TextView sessionCount;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            //orig mIdView = (TextView) view.findViewById(R.id.item_number);
-            //orig mContentView = (TextView) view.findViewById(R.id.content);
-
             card_view = (CardView) view.findViewById(R.id.card_view);
-            programName = (TextView)itemView.findViewById(R.id.program_name);
-            programDescription = (TextView)itemView.findViewById(R.id.program_description);
+            programName = (TextView)view.findViewById(R.id.program_name);
+            programDescription = (TextView)view.findViewById(R.id.program_description);
+            sessionCount = (TextView)view.findViewById(R.id.session_count);
 
             /*
             programPhoto = (ImageView)itemView.findViewById(R.id.program_photo);

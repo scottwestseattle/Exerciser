@@ -2,6 +2,15 @@ package com.exerciser.ui.exercise;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,9 +45,12 @@ public class ExerciseContent {
             totalSeconds += e.breakSeconds;
         }
 
-        return Float.toString(totalSeconds / 60.0f);
-    }
+        // format the seconds to look like: 13:10
+        Date dt = new Date(((long) totalSeconds) * 1000);
+        String time = new SimpleDateFormat("mm:ss").format(dt);
 
+        return time;
+    }
 
     private static void addItem(ExerciseItem item) {
         exerciseList.add(item);
