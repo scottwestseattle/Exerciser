@@ -32,6 +32,7 @@ public class BreakFragment extends Fragment {
     private int secondsRemaining = 0;
     private final int second = 1000; // 1 Second
     private final int countdownSeconds = 5;
+    private final int nextCountdownSeconds = 3;
     private final int getReadySeconds = countdownSeconds + 1;
     private Handler handler = new Handler();
     private boolean timerPaused = false;
@@ -121,9 +122,10 @@ public class BreakFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (started) {
-                    shutup();
-                    stopTimer();
-                    showExerciseFragment();
+                    secondsRemaining = nextCountdownSeconds + 1;
+                    //shutup();
+                    //stopTimer();
+                    //showExerciseFragment();
                 }
                 else {
                     start();
