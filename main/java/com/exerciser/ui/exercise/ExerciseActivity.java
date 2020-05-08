@@ -1,5 +1,7 @@
 package com.exerciser.ui.exercise;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,8 +14,10 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
@@ -35,6 +39,7 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
     public TextToSpeech tts = null;
     public boolean isSpeechLoaded = false;
     public int programId = -1;
+    public String sessionName = "";
 
     @Override
     public void onListFragmentInteraction(ExerciseContent.ExerciseItem exerciseItem) {
@@ -51,17 +56,20 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // get the data
+        this.programId = getIntent().getIntExtra("courseId", -1);
         int exerciseId = getIntent().getIntExtra("sessionId", -1);
+        this.sessionName = getIntent().getStringExtra("sessionName");
+
+        // get the data
         exercises = new ExerciseContent(exerciseId);
 
         // set the toolbar caption
-        String title = getIntent().getStringExtra("sessionName");
         String subTitle = exercises.exerciseList.size() + " exercises, Time: " + exercises.getTotalTime();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(title);
+        toolbar.setTitle(this.sessionName);
         toolbar.setSubtitle(subTitle);
         setSupportActionBar(toolbar);
 
@@ -174,10 +182,12 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
     }
 
     public void end() {
-        Intent intent = new Intent(this, SessionsActivity.class);
-        this.programId = 14;
-        intent.putExtra("courseId", programId);
-        startActivity(intent);
+        finish();
+        return;
+    }
+
+    public boolean isLastExercise() {
+        return (this.currentExerciseIndex == this.exercises.exerciseList.size() - 1);
     }
 
     public int getTotalExercises() {

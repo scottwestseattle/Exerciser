@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.exerciser.R;
@@ -35,7 +37,7 @@ public class ExerciseFragment extends Fragment {
                 updateTimerAudio(secondsRemaining);
             } else {
                 stopTimer();
-                showBreakFragment();
+                showNextFragment();
             }
         }
     };
@@ -52,12 +54,25 @@ public class ExerciseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                ((ExerciseActivity) getActivity()).shutup();
+                stopTimer();
+                NavController controller = NavHostFragment.findNavController(ExerciseFragment.this);
+                if (null != controller)
+                    controller.navigate(R.id.action_ExerciseFragment_to_StartFragment);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((ExerciseActivity) getActivity()).shutup();
                 stopTimer();
-                showBreakFragment();
+                showNextFragment();
             }
         });
 
@@ -84,7 +99,10 @@ public class ExerciseFragment extends Fragment {
             public void onClick(View view) {
                 speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
                 stopTimer();
-                ((ExerciseActivity) getActivity()).end();
+
+                NavController controller = NavHostFragment.findNavController(ExerciseFragment.this);
+                if (null != controller)
+                    controller.navigate(R.id.action_ExerciseFragment_to_StartFragment);
             }
         });
 
@@ -178,8 +196,11 @@ public class ExerciseFragment extends Fragment {
         }
     }
 
-    private void showBreakFragment() {
-        NavHostFragment.findNavController(ExerciseFragment.this).navigate(R.id.action_ExerciseFragment_to_BreakFragment);
+    private void showNextFragment() {
+        if ( ((ExerciseActivity)getActivity()).isLastExercise() )
+        NavHostFragment.findNavController(ExerciseFragment.this).navigate(R.id.action_ExerciseFragment_to_finishedFragment);
+        else
+            NavHostFragment.findNavController(ExerciseFragment.this).navigate(R.id.action_ExerciseFragment_to_BreakFragment);
     }
 
     private void startTimer(int seconds)

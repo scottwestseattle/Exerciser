@@ -3,13 +3,13 @@ package com.exerciser.ui.exercise;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,14 +85,15 @@ public class StartFragment extends Fragment {
         //todo: put button click listeners here
         //
 
-        /*sbw test
-        view.findViewById(R.id.list).setOnClickListener(new View.OnClickListener() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
-            public void onClick(View view) {
-                Log.i("list click", "clicked");
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                ((ExerciseActivity) getActivity()).end();
             }
-        });
-        */
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
     }
 
     @Override

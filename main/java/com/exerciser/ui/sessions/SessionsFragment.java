@@ -3,6 +3,8 @@ package com.exerciser.ui.sessions;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.exerciser.R;
+import com.exerciser.ui.exercise.ExerciseActivity;
 import com.exerciser.ui.sessions.session.SessionContent;
 
 /**
@@ -81,6 +84,24 @@ public class SessionsFragment extends Fragment {
             recyclerView.setAdapter(new MySessionsRecyclerViewAdapter(sessionContent.sessionList, mListener));
         }
         return view;
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //
+        //todo: put button click listeners here
+        //
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                ((SessionsActivity) getActivity()).finish();
+                return;
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
     }
 
     @Override

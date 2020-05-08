@@ -14,6 +14,10 @@
         <action
             android:id="@+id/action_StartFragment_to_BreakFragment"
             app:destination="@id/BreakFragment" />
+        <action
+            android:id="@+id/action_StartFragment_pop"
+            app:popUpTo="@id/StartFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -25,6 +29,9 @@
         <action
             android:id="@+id/action_BreakFragment_to_ExerciseFragment"
             app:destination="@id/ExerciseFragment" />
+        <action
+            android:id="@+id/action_BreakFragment_to_StartFragment"
+            app:destination="@id/StartFragment" />
     </fragment>
     <fragment
         android:id="@+id/ExerciseFragment"
@@ -35,5 +42,17 @@
         <action
             android:id="@+id/action_ExerciseFragment_to_BreakFragment"
             app:destination="@id/BreakFragment" />
+        <action
+            android:id="@+id/action_ExerciseFragment_to_StartFragment"
+            app:destination="@id/StartFragment" />
+        <action
+            android:id="@+id/action_ExerciseFragment_to_finishedFragment"
+            app:destination="@id/finishedFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/finishedFragment"
+        android:name="com.exerciser.ui.exercise.FinishedFragment"
+        android:label="fragment_finished"
+        tools:layout="@layout/fragment_finished" />
+
 </navigation>

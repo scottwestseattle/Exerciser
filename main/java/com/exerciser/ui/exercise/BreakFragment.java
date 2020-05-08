@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -52,16 +54,6 @@ public class BreakFragment extends Fragment {
             "Okay, don't be a little bitch!"
     };
 
-    String endMsgs[] = {
-            "You killed it like a boss!",
-            "You made it your bitch!",
-            "You did it like a boss!",
-            "Boom chocka locka!",
-            "Feel the heat, in your meat!",
-            "Whose your daddy!",
-            "You've got that Boom Boom Pow!"
-    };
-
     private Runnable runnable = new Runnable(){
         public void run() {
 
@@ -97,7 +89,6 @@ public class BreakFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_break, container, false);
     }
@@ -105,16 +96,21 @@ public class BreakFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                stop();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
         view.findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             if (started) {
                 speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
                 stop();
-
-                ExerciseActivity activity = (ExerciseActivity) getActivity();
-                if (null != activity)
-                    activity.end();
             }
             else
                 start();
@@ -186,7 +182,10 @@ public class BreakFragment extends Fragment {
     private void stop() {
         this.started = false;
         stopTimer();
-        setButtonText("Start", R.id.button_start);
+
+        NavController controller = NavHostFragment.findNavController(BreakFragment.this);
+        if (null != controller)
+            controller.navigate(R.id.action_BreakFragment_to_StartFragment);
     }
 
     private void setButtonText(String text, int buttonId) {
@@ -221,9 +220,6 @@ public class BreakFragment extends Fragment {
                 text += "  The next exercise is, " + exerciseItem.name + ", for " + exerciseItem.runSeconds + " seconds.";
             }
 
-            //String title = (exerciseItem.order == 1) ? "Get ready" : "Take a break";
-            //speak(title + ".  " + exerciseItem.name + ", starts in " + seconds + " seconds");
-
             speak(text, TextToSpeech.QUEUE_ADD);
 
             // start
@@ -234,7 +230,7 @@ public class BreakFragment extends Fragment {
         else {
             // end
             activity.speak("All exercises completed.", TextToSpeech.QUEUE_ADD);
-            activity.speak((this.getRandomMessage(endMsgs)), TextToSpeech.QUEUE_ADD);
+            activity.speak("Well done!  Congratulations!", TextToSpeech.QUEUE_ADD);
             stopTimer();
         }
     }

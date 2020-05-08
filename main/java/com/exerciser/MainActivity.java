@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements ProgramsFragment.
         //
         Intent intent = new Intent(this, SessionsActivity.class);
         intent.putExtra("courseId", item.id);
+        intent.putExtra("courseName", item.name);
+        intent.putExtra("sessionCount", item.sessionCount);
+
         startActivity(intent);
     }
 

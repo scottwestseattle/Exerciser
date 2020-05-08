@@ -3,9 +3,11 @@ package com.exerciser.ui.sessions;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.exerciser.MainActivity;
 import com.exerciser.R;
 import com.exerciser.ui.exercise.ExerciseActivity;
 import com.exerciser.ui.exercise.ExerciseContent;
@@ -27,10 +29,14 @@ public class SessionsActivity extends AppCompatActivity implements SessionsFragm
         // the fragment will call up and get it during creation
         // todo: where should this be done?
         //
-        this.courseId = getIntent().getIntExtra("courseId", -1);
+        courseId = getIntent().getIntExtra("courseId", -1);
+        int sessionCount = getIntent().getIntExtra("sessionCount", -1);
+        String courseName = getIntent().getStringExtra("courseName");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessions);
+
+        setTitle(courseName + ": " + sessionCount + " sessions");
     }
 
     @Override
@@ -41,6 +47,16 @@ public class SessionsActivity extends AppCompatActivity implements SessionsFragm
         Intent intent = new Intent(this, ExerciseActivity.class);
         intent.putExtra("sessionName", item.parent + ": Day " + item.number);
         intent.putExtra("sessionId", item.id);
+        intent.putExtra("courseId", courseId);
+        startActivity(intent);
+    }
+
+    public void navigateUp() {
+        //
+        // start the selected exercise
+        //
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("courseId", courseId);
         startActivity(intent);
     }
 }
