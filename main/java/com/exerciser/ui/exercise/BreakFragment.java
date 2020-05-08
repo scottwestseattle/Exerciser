@@ -1,6 +1,5 @@
 package com.exerciser.ui.exercise;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -9,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,11 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.exerciser.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class BreakFragment extends Fragment {
@@ -109,12 +106,27 @@ public class BreakFragment extends Fragment {
         view.findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            if (started) {
-                speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
-                stop();
-            }
-            else
-                start();
+
+                if (started) {
+                    if (timerPaused) {
+                        //sbw setButtonText("Pause", R.id.button_pause);
+                        setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
+                        speak("Continued.  ", TextToSpeech.QUEUE_FLUSH);
+                        startTimer(secondsRemaining); // restart timer
+                    } else {
+                        //sbw setButtonText("Continue", R.id.button_pause);
+                        setButtonState(R.id.button_start, android.R.drawable.ic_media_play);
+                        speak("paused.  ", TextToSpeech.QUEUE_FLUSH);
+                        stopTimer();
+                    }
+
+                    timerPaused = !timerPaused;
+                }
+                else
+                {
+                    start();
+                }
+
             }
         });
 
@@ -122,10 +134,14 @@ public class BreakFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (started) {
-                    secondsRemaining = nextCountdownSeconds + 1;
-                    //shutup();
-                    //stopTimer();
-                    //showExerciseFragment();
+                    if (timerPaused) {
+                        setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
+                        speak("Resuming...  ", TextToSpeech.QUEUE_FLUSH);
+                        startTimer(nextCountdownSeconds); // restart timer
+                    }
+                    else {
+                        secondsRemaining = nextCountdownSeconds + 1;
+                    }
                 }
                 else {
                     start();
@@ -134,28 +150,25 @@ public class BreakFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.button_pause).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.button_stop).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (timerPaused) {
-                    setButtonText("Pause", R.id.button_pause);
-                    speak("Continued.  ", TextToSpeech.QUEUE_FLUSH);
-                    startTimer(secondsRemaining); // restart timer
-                }
-                else {
-                    setButtonText("Continue", R.id.button_pause);
-                    speak("paused.  ", TextToSpeech.QUEUE_FLUSH);
-                    stopTimer();
+                if (started) {
+                    speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
                 }
 
-                timerPaused = !timerPaused;
+                stop();
             }
         });
 
-        if (this.started)
+        if (this.started) {
+            setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
             loadNext();
-        else if (this.autoStart)
+        }
+        else if (this.autoStart) {
+            setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
             handler.postDelayed(this.startUp, this.second * 2);
+        }
     }
 
     private String getRandomMessage(String[] msgs) {
@@ -173,12 +186,20 @@ public class BreakFragment extends Fragment {
                 this.started = true;
                 activity.reset();
                 loadNext();
-                setButtonText("Stop", R.id.button_start);
+                setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
             } else {
                 activity.speak("Wait for exercises to finish loading...", TextToSpeech.QUEUE_ADD);
                 handler.postDelayed(this.startUp, this.second); // wait 1 second
             }
         }
+    }
+
+    private void setButtonState(int buttonId, int resourceId)
+    {
+        ImageButton button = this.getView().findViewById(buttonId);
+        int id = getResources().getIdentifier("ic_media_play", "@android", "drawable" );
+        if (null != button)
+            button.setImageResource(resourceId);
     }
 
     private void stop() {
@@ -227,7 +248,7 @@ public class BreakFragment extends Fragment {
             // start
             setStaticViews(activity, exerciseItem, title);
             startTimer(seconds);
-            setButtonText("Stop", R.id.button_start);
+            //sbw setButtonText("Stop", R.id.button_start);
         }
         else {
             // end

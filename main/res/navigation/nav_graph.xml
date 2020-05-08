@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/StartFragment"
         android:name="com.exerciser.ui.exercise.StartFragment"
-        android:label="@string/first_fragment_label"
+        android:label="StartFragment"
         tools:layout="@layout/fragment_start">
 
         <action
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/BreakFragment"
         android:name="com.exerciser.ui.exercise.BreakFragment"
-        android:label="Break Fragment"
+        android:label="BreakFragment"
         tools:layout="@layout/fragment_break">
 
         <action
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/ExerciseFragment"
         android:name="com.exerciser.ui.exercise.ExerciseFragment"
-        android:label="Exercise Fragment"
+        android:label="ExerciseFragment"
         tools:layout="@layout/fragment_exercise">
 
         <action
@@ -52,7 +52,7 @@
     <fragment
         android:id="@+id/finishedFragment"
         android:name="com.exerciser.ui.exercise.FinishedFragment"
-        android:label="fragment_finished"
+        android:label="FinishedFragment"
         tools:layout="@layout/fragment_finished" />
 
 </navigation>

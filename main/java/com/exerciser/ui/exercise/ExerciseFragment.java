@@ -76,16 +76,16 @@ public class ExerciseFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.button_pause).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.button_stop).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (timerPaused) {
-                    setButtonText("Pause", R.id.button_pause);
+                    setButtonText("Pause", R.id.button_stop);
                     speak("Continued.  ", TextToSpeech.QUEUE_FLUSH);
                     startTimer(secondsRemaining); // restart timer
                 }
                 else {
-                    setButtonText("Continue", R.id.button_pause);
+                    setButtonText("Continue", R.id.button_stop);
                     speak("paused.  ", TextToSpeech.QUEUE_FLUSH);
                     stopTimer();
                 }

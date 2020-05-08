@@ -99,6 +99,40 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
             }
         });
 
+        FloatingActionButton fabPlay = findViewById(R.id.fabPlay);
+        fabPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (false)
+                {
+                    // if Break fragment is active then start the exercises
+                    if (true /* started */)
+                    {
+                        if (true /* paused */)
+                        {
+                            // unpause
+                        }
+                        else
+                        {
+                            // pause
+                        }
+                    }
+                    else
+                    {
+                        // start
+                    }
+                }
+                else {
+                    Fragment f = getSupportFragmentManager().getPrimaryNavigationFragment();
+                    if (null != f) {
+                        speak("Ready to start.", TextToSpeech.QUEUE_ADD);
+                        NavHostFragment.findNavController(f).navigate(R.id.action_StartFragment_to_BreakFragment);
+                    }
+                }
+            }
+        });
+
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
