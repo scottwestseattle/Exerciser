@@ -58,55 +58,44 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                ((ExerciseActivity) getActivity()).shutup();
-                stopTimer();
-                NavController controller = NavHostFragment.findNavController(ExerciseFragment.this);
-                if (null != controller)
-                    controller.navigate(R.id.action_ExerciseFragment_to_StartFragment);
+                speak("Stopping", TextToSpeech.QUEUE_FLUSH);
+                onHardStop();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
-        view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((ExerciseActivity) getActivity()).shutup();
-                stopTimer();
-                showNextFragment();
-            }
-        });
-
-        view.findViewById(R.id.button_stop).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (timerPaused) {
-                    setButtonText("Pause", R.id.button_stop);
-                    speak("Continued.  ", TextToSpeech.QUEUE_FLUSH);
-                    startTimer(secondsRemaining); // restart timer
-                }
-                else {
-                    setButtonText("Continue", R.id.button_stop);
-                    speak("paused.  ", TextToSpeech.QUEUE_FLUSH);
-                    stopTimer();
-                }
-
-                timerPaused = !timerPaused;
-            }
-        });
-
-        view.findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
-                stopTimer();
-
-                NavController controller = NavHostFragment.findNavController(ExerciseFragment.this);
-                if (null != controller)
-                    controller.navigate(R.id.action_ExerciseFragment_to_StartFragment);
-            }
-        });
-
         loadCurrent();
+    }
+
+    public void onHardStop() {
+        stopTimer();
+        NavController controller = NavHostFragment.findNavController(ExerciseFragment.this);
+        if (null != controller)
+            controller.navigate(R.id.action_ExerciseFragment_to_StartFragment);
+    }
+
+    public boolean onFabNextClicked() {
+        ((ExerciseActivity) getActivity()).shutup();
+        stopTimer();
+        showNextFragment();
+
+        return timerPaused;
+    }
+
+    public boolean onFabPlayPauseClicked() {
+
+        if (timerPaused) {
+            speak("Continued.  ", TextToSpeech.QUEUE_FLUSH);
+            startTimer(secondsRemaining); // restart timer
+        }
+        else {
+            speak("paused.  ", TextToSpeech.QUEUE_FLUSH);
+            stopTimer();
+        }
+
+        timerPaused = !timerPaused;
+
+        return timerPaused;
     }
 
     private void setButtonText(String text, int buttonId) {
@@ -198,7 +187,7 @@ public class ExerciseFragment extends Fragment {
 
     private void showNextFragment() {
         if ( ((ExerciseActivity)getActivity()).isLastExercise() )
-        NavHostFragment.findNavController(ExerciseFragment.this).navigate(R.id.action_ExerciseFragment_to_finishedFragment);
+            NavHostFragment.findNavController(ExerciseFragment.this).navigate(R.id.action_ExerciseFragment_to_finishedFragment);
         else
             NavHostFragment.findNavController(ExerciseFragment.this).navigate(R.id.action_ExerciseFragment_to_BreakFragment);
     }

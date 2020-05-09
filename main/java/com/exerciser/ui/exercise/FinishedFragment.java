@@ -86,5 +86,6 @@ public class FinishedFragment extends Fragment {
 
         activity.speak("All exercises completed.", TextToSpeech.QUEUE_ADD);
         activity.speak((endMsgs[new Random().nextInt(endMsgs.length)]), TextToSpeech.QUEUE_ADD);
+        activity.setFabPlayIcon(true);
     }
 }

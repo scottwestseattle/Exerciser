@@ -82,6 +82,16 @@ public class BreakFragment extends Fragment {
         }
     };
 
+    public BreakFragment() {
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        stopTimer();
+    }
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -98,77 +108,57 @@ public class BreakFragment extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                stop();
+                speak("Stopping", TextToSpeech.QUEUE_FLUSH);
+                onHardStop();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
-        view.findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (started) {
-                    if (timerPaused) {
-                        //sbw setButtonText("Pause", R.id.button_pause);
-                        setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
-                        speak("Continued.  ", TextToSpeech.QUEUE_FLUSH);
-                        startTimer(secondsRemaining); // restart timer
-                    } else {
-                        //sbw setButtonText("Continue", R.id.button_pause);
-                        setButtonState(R.id.button_start, android.R.drawable.ic_media_play);
-                        speak("paused.  ", TextToSpeech.QUEUE_FLUSH);
-                        stopTimer();
-                    }
-
-                    timerPaused = !timerPaused;
-                }
-                else
-                {
-                    start();
-                }
-
-            }
-        });
-
-        view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (started) {
-                    if (timerPaused) {
-                        setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
-                        speak("Resuming...  ", TextToSpeech.QUEUE_FLUSH);
-                        startTimer(nextCountdownSeconds); // restart timer
-                    }
-                    else {
-                        secondsRemaining = nextCountdownSeconds + 1;
-                    }
-                }
-                else {
-                    start();
-                }
-
-            }
-        });
-
-        view.findViewById(R.id.button_stop).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (started) {
-                    speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
-                }
-
-                stop();
-            }
-        });
-
         if (this.started) {
-            setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
             loadNext();
         }
         else if (this.autoStart) {
-            setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
             handler.postDelayed(this.startUp, this.second * 2);
         }
+    }
+
+    public boolean onFabNextClicked() {
+        if (started) {
+            if (timerPaused) {
+                speak("Resuming...  ", TextToSpeech.QUEUE_FLUSH);
+                startTimer(nextCountdownSeconds); // restart timer
+            } else {
+                int seconds = nextCountdownSeconds + 1;
+                if (secondsRemaining > seconds)
+                    secondsRemaining = seconds; // countdown from 3
+                else
+                    secondsRemaining = 1; // do it now
+            }
+        } else {
+            start();
+        }
+
+        return timerPaused;
+    }
+
+    public boolean onFabPlayPauseClicked() {
+        if (started) {
+            if (timerPaused) {
+                speak("Continued.  ", TextToSpeech.QUEUE_FLUSH);
+                startTimer(secondsRemaining); // restart timer
+            } else {
+                speak("paused.  ", TextToSpeech.QUEUE_FLUSH);
+                stopTimer();
+            }
+
+            timerPaused = !timerPaused;
+        }
+        else
+        {
+            start();
+        }
+
+        return timerPaused;
     }
 
     private String getRandomMessage(String[] msgs) {
@@ -186,7 +176,6 @@ public class BreakFragment extends Fragment {
                 this.started = true;
                 activity.reset();
                 loadNext();
-                setButtonState(R.id.button_start, android.R.drawable.ic_media_pause);
             } else {
                 activity.speak("Wait for exercises to finish loading...", TextToSpeech.QUEUE_ADD);
                 handler.postDelayed(this.startUp, this.second); // wait 1 second
@@ -194,15 +183,7 @@ public class BreakFragment extends Fragment {
         }
     }
 
-    private void setButtonState(int buttonId, int resourceId)
-    {
-        ImageButton button = this.getView().findViewById(buttonId);
-        int id = getResources().getIdentifier("ic_media_play", "@android", "drawable" );
-        if (null != button)
-            button.setImageResource(resourceId);
-    }
-
-    private void stop() {
+    public void onHardStop() {
         this.started = false;
         stopTimer();
 

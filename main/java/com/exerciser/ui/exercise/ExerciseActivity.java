@@ -1,23 +1,14 @@
 package com.exerciser.ui.exercise;
 
-import android.app.ActivityManager;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.exerciser.ui.exercise.start.StartContent;
-import com.exerciser.ui.sessions.SessionsActivity;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
@@ -63,13 +54,14 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
         // get the data
         exercises = new ExerciseContent(exerciseId);
 
-        // set the toolbar caption
-        String subTitle = exercises.exerciseList.size() + " exercises, Time: " + exercises.getTotalTime();
-
+        // set up the main view
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
+
+        // set up the toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(this.sessionName);
+        String subTitle = exercises.exerciseList.size() + " exercises, Time: " + exercises.getTotalTime();
         toolbar.setSubtitle(subTitle);
         setSupportActionBar(toolbar);
 
@@ -77,25 +69,24 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            String msg = "TTS not set.";
-            if (null != tts)
-            {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    Set<Voice> voices = tts.getVoices();
-                    String name = tts.getVoice().getName();
-                    msg = "Voice: " + name;
-                    msg += " (" + Integer.toString(voices.size());
-                    int count = 0;
-                    for (Voice voice : voices) {
-                        String lang = voice.getLocale().getLanguage().toString();
-                        if (count++ < 5)
-                            msg += ", " + lang;
+                String msg = "TTS not set.";
+                if (null != tts) {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        Set<Voice> voices = tts.getVoices();
+                        String name = tts.getVoice().getName();
+                        msg = "Voice: " + name;
+                        msg += " (" + Integer.toString(voices.size());
+                        int count = 0;
+                        for (Voice voice : voices) {
+                            String lang = voice.getLocale().getLanguage().toString();
+                            if (count++ < 5)
+                                msg += ", " + lang;
+                        }
+                        msg += ")";
                     }
-                    msg += ")";
                 }
-            }
 
-            Snackbar.make(view, msg, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(view, msg, Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -104,31 +95,73 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
             @Override
             public void onClick(View view) {
 
-                if (false)
-                {
-                    // if Break fragment is active then start the exercises
-                    if (true /* started */)
-                    {
-                        if (true /* paused */)
-                        {
-                            // unpause
-                        }
-                        else
-                        {
-                            // pause
-                        }
-                    }
-                    else
-                    {
-                        // start
-                    }
+                // get the active fragment so we know which action to perform
+                Fragment nav = getSupportFragmentManager().getPrimaryNavigationFragment();
+                List<Fragment> fragments = (null != nav) ? nav.getChildFragmentManager().getFragments() : null;
+                Fragment fragment = (null != fragments && fragments.size() > 0) ? fragments.get(0) : null;
+
+                if (fragment instanceof StartFragment) {
+                    NavHostFragment.findNavController(fragment).navigate(R.id.action_StartFragment_to_BreakFragment);
+                } else if (fragment instanceof BreakFragment) {
+                    boolean paused = ((BreakFragment) fragment).onFabPlayPauseClicked();
+                    setFabPlayIcon(paused);
+                } else if (fragment instanceof ExerciseFragment) {
+                    boolean paused = ((ExerciseFragment) fragment).onFabPlayPauseClicked();
+                    setFabPlayIcon(paused);
+                } else if (fragment instanceof FinishedFragment) {
+                    NavHostFragment.findNavController(fragment).navigate(R.id.action_finishedFragment_to_StartFragment);
                 }
-                else {
-                    Fragment f = getSupportFragmentManager().getPrimaryNavigationFragment();
-                    if (null != f) {
-                        speak("Ready to start.", TextToSpeech.QUEUE_ADD);
-                        NavHostFragment.findNavController(f).navigate(R.id.action_StartFragment_to_BreakFragment);
-                    }
+            }
+        });
+
+        FloatingActionButton fabNext = findViewById(R.id.fabNext);
+        fabNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // get the active fragment so we know which action to perform
+                Fragment nav = getSupportFragmentManager().getPrimaryNavigationFragment();
+                List<Fragment> fragments = (null != nav) ? nav.getChildFragmentManager().getFragments() : null;
+                Fragment fragment = (null != fragments && fragments.size() > 0) ? fragments.get(0) : null;
+
+                if (fragment instanceof StartFragment) {
+                    NavHostFragment.findNavController(fragment).navigate(R.id.action_StartFragment_to_BreakFragment);
+                } else if (fragment instanceof BreakFragment) {
+                    boolean paused = ((BreakFragment) fragment).onFabNextClicked();
+                    setFabPlayIcon(paused);
+                } else if (fragment instanceof ExerciseFragment) {
+                    boolean paused = ((ExerciseFragment) fragment).onFabNextClicked();
+                    setFabPlayIcon(paused);
+                } else if (fragment instanceof FinishedFragment) {
+                    NavHostFragment.findNavController(fragment).navigate(R.id.action_finishedFragment_to_StartFragment);
+                }
+            }
+        });
+
+        FloatingActionButton fabEnd = findViewById(R.id.fabEnd);
+        fabEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // get the active fragment so we know which action to perform
+                Fragment nav = getSupportFragmentManager().getPrimaryNavigationFragment();
+                List<Fragment> fragments = (null != nav) ? nav.getChildFragmentManager().getFragments() : null;
+                Fragment fragment = (null != fragments && fragments.size() > 0) ? fragments.get(0) : null;
+
+                boolean showPlayIcon = true;
+                if (fragment instanceof BreakFragment) {
+                    speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
+                    setFabPlayIcon(showPlayIcon);
+                    ((BreakFragment) fragment).onHardStop();
+                } else if (fragment instanceof ExerciseFragment) {
+                    speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
+                    setFabPlayIcon(showPlayIcon);
+                    ((ExerciseFragment) fragment).onHardStop();
+                } else if (fragment instanceof FinishedFragment) {
+                    setFabPlayIcon(showPlayIcon);
+                    NavHostFragment.findNavController(fragment).navigate(R.id.action_finishedFragment_to_StartFragment);
+                } else if (fragment instanceof StartFragment) {
+                    end();
                 }
             }
         });
@@ -171,12 +204,10 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
 
                             //speak("Random voice has been set from " + localVoices.size() + " voices.", TextToSpeech.QUEUE_ADD);
                             Log.i("voice: ", voice.getName() + " set from " + localVoices.size() + " local voices.");
-                        }
-                        else {
+                        } else {
                             //speak(voices.size() + " voices found.", TextToSpeech.QUEUE_ADD);
                         }
-                    }
-                    else {
+                    } else {
                         speak("Speech has been initialized.", TextToSpeech.QUEUE_ADD);
                     }
 
@@ -187,6 +218,19 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
             }
         });
 
+    }
+
+    public void setFabPlayIcon(boolean paused) {
+        if (paused)
+            setFabButtonIcon(R.id.fabPlay, android.R.drawable.ic_media_play);
+        else
+            setFabButtonIcon(R.id.fabPlay, android.R.drawable.ic_media_pause);
+
+    }
+
+    public void setFabButtonIcon(int buttonId, int buttonIcon) {
+        FloatingActionButton fabPlay = findViewById(buttonId);
+        fabPlay.setImageResource(buttonIcon);
     }
 
     public ExerciseContent getExercises()

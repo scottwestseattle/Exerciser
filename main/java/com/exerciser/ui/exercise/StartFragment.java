@@ -81,9 +81,6 @@ public class StartFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //
-        //todo: put button click listeners here
-        //
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -94,6 +91,10 @@ public class StartFragment extends Fragment {
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
+        // all fragments come back to here so reset the fabPlay button icon
+        ExerciseActivity activity = (ExerciseActivity) getActivity();
+        if (null == activity)
+            activity.setFabPlayIcon(true);
     }
 
     @Override

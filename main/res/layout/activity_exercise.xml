@@ -28,7 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
         android:layout_marginLeft="100dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
         app:srcCompat="@android:drawable/ic_dialog_info"
         />
 
@@ -37,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_media_play" />
 
@@ -47,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_media_next" />
 
@@ -58,7 +59,7 @@
         android:clickable="true"
         android:layout_gravity="bottom|start"
         android:layout_marginLeft="10dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="10dp"
         app:srcCompat="?attr/homeAsUpIndicator" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
