@@ -118,7 +118,12 @@ public class BreakFragment extends Fragment {
             loadNext();
         }
         else if (this.autoStart) {
+            // not used
             handler.postDelayed(this.startUp, this.second * 2);
+        }
+        else
+        {
+            start();
         }
     }
 
@@ -127,6 +132,7 @@ public class BreakFragment extends Fragment {
             if (timerPaused) {
                 speak("Resuming...  ", TextToSpeech.QUEUE_FLUSH);
                 startTimer(nextCountdownSeconds); // restart timer
+                timerPaused = false;
             } else {
                 int seconds = nextCountdownSeconds + 1;
                 if (secondsRemaining > seconds)
@@ -229,13 +235,14 @@ public class BreakFragment extends Fragment {
             // start
             setStaticViews(activity, exerciseItem, title);
             startTimer(seconds);
-            //sbw setButtonText("Stop", R.id.button_start);
+            activity.setFabPlayIcon(false);
         }
         else {
             // end
             activity.speak("All exercises completed.", TextToSpeech.QUEUE_ADD);
             activity.speak("Well done!  Congratulations!", TextToSpeech.QUEUE_ADD);
             stopTimer();
+            activity.setFabPlayIcon(true);
         }
     }
 

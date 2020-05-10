@@ -109,6 +109,7 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
                     boolean paused = ((ExerciseFragment) fragment).onFabPlayPauseClicked();
                     setFabPlayIcon(paused);
                 } else if (fragment instanceof FinishedFragment) {
+                    reset();
                     NavHostFragment.findNavController(fragment).navigate(R.id.action_finishedFragment_to_StartFragment);
                 }
             }
@@ -133,6 +134,7 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
                     boolean paused = ((ExerciseFragment) fragment).onFabNextClicked();
                     setFabPlayIcon(paused);
                 } else if (fragment instanceof FinishedFragment) {
+                    reset();
                     NavHostFragment.findNavController(fragment).navigate(R.id.action_finishedFragment_to_StartFragment);
                 }
             }
@@ -148,8 +150,11 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
                 List<Fragment> fragments = (null != nav) ? nav.getChildFragmentManager().getFragments() : null;
                 Fragment fragment = (null != fragments && fragments.size() > 0) ? fragments.get(0) : null;
 
+                reset();
                 boolean showPlayIcon = true;
-                if (fragment instanceof BreakFragment) {
+                if (fragment instanceof StartFragment) {
+                    end();
+                } else if (fragment instanceof BreakFragment) {
                     speak("Stopping...", TextToSpeech.QUEUE_FLUSH);
                     setFabPlayIcon(showPlayIcon);
                     ((BreakFragment) fragment).onHardStop();
@@ -160,8 +165,6 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
                 } else if (fragment instanceof FinishedFragment) {
                     setFabPlayIcon(showPlayIcon);
                     NavHostFragment.findNavController(fragment).navigate(R.id.action_finishedFragment_to_StartFragment);
-                } else if (fragment instanceof StartFragment) {
-                    end();
                 }
             }
         });

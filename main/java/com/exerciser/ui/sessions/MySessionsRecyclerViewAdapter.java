@@ -88,6 +88,7 @@ public class MySessionsRecyclerViewAdapter extends RecyclerView.Adapter<MySessio
             programDescription = (TextView)itemView.findViewById(R.id.program_description);
             dayLabel = (TextView)itemView.findViewById(R.id.day_label);
 
+            /*
             final Button button = itemView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,6 +101,7 @@ public class MySessionsRecyclerViewAdapter extends RecyclerView.Adapter<MySessio
                     }
                 }
             });
+             */
         }
 
         @Override

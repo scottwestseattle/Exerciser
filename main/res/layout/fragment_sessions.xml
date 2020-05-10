@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/program_name"
                 android:text="Session List Item"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/day_label"
@@ -45,9 +45,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/program_name"
+                android:layout_marginBottom="20dp"
                 />
 
-            <Button
+            <!-- Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +59,7 @@
                 android:layout_marginBottom="15dp"
                 android:text="Start"
                 android:textColor="@color/cardview_light_background"
-                />
+                / -->
 
         </RelativeLayout>
 
