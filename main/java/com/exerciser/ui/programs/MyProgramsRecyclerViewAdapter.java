@@ -1,15 +1,18 @@
 package com.exerciser.ui.programs;
 
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.exerciser.R;
@@ -43,11 +46,30 @@ public class MyProgramsRecyclerViewAdapter
         return new ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.programName.setText(mValues.get(position).name);
         holder.programDescription.setText(mValues.get(position).description);
+        switch(position)
+        {
+            case 0:
+                holder.programLayout.setBackgroundResource(R.drawable.bg_0);
+                break;
+            case 1:
+                holder.programLayout.setBackgroundResource(R.drawable.bg_1);
+                break;
+            case 2:
+                holder.programLayout.setBackgroundResource(R.drawable.bg_2);
+                break;
+            case 3:
+                holder.programLayout.setBackgroundResource(R.drawable.bg_3);
+                break;
+            default:
+                holder.card_view.setCardBackgroundColor(Color.RED);
+                break;
+        }
 
         // show number of sessions
         int cnt = mValues.get(position).sessionCount;
@@ -77,6 +99,7 @@ public class MyProgramsRecyclerViewAdapter
         TextView programName;
         TextView programDescription;
         TextView sessionCount;
+        RelativeLayout programLayout;
 
         public ViewHolder(View view) {
             super(view);
@@ -85,6 +108,7 @@ public class MyProgramsRecyclerViewAdapter
             programName = (TextView)view.findViewById(R.id.program_name);
             programDescription = (TextView)view.findViewById(R.id.program_description);
             sessionCount = (TextView)view.findViewById(R.id.session_count);
+            programLayout = (RelativeLayout) view.findViewById(R.id.program_layout);
 
             /*
             programPhoto = (ImageView)itemView.findViewById(R.id.program_photo);

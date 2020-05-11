@@ -11,13 +11,15 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:id="@+id/card_view"
-        app:cardBackgroundColor="@color/colorAccent"
+        app:cardBackgroundColor="#8c8c8c"
         >
 
         <RelativeLayout
+            android:id="@+id/program_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="12dp"
+            >
 
             <TextView
                 android:id="@+id/program_name"
@@ -25,14 +27,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:textSize="30sp"
+                android:textColor="#fff"
+                android:layout_marginTop="0dp"
+                android:layout_centerHorizontal="true"
                 />
 
             <TextView
                 android:id="@+id/program_description"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/program_name"
+                android:textSize="15sp"
+                android:textColor="#fff"
+                android:layout_centerHorizontal="true"
                 />
 
             <TextView
@@ -43,6 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/program_description"
+                android:textColor="#fff"
+                android:layout_centerHorizontal="true"
                 />
 
         </RelativeLayout>

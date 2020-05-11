@@ -96,9 +96,7 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
             public void onClick(View view) {
 
                 // get the active fragment so we know which action to perform
-                Fragment nav = getSupportFragmentManager().getPrimaryNavigationFragment();
-                List<Fragment> fragments = (null != nav) ? nav.getChildFragmentManager().getFragments() : null;
-                Fragment fragment = (null != fragments && fragments.size() > 0) ? fragments.get(0) : null;
+                Fragment fragment = getActiveFragment();
 
                 if (fragment instanceof StartFragment) {
                     NavHostFragment.findNavController(fragment).navigate(R.id.action_StartFragment_to_BreakFragment);
@@ -121,9 +119,7 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
             public void onClick(View view) {
 
                 // get the active fragment so we know which action to perform
-                Fragment nav = getSupportFragmentManager().getPrimaryNavigationFragment();
-                List<Fragment> fragments = (null != nav) ? nav.getChildFragmentManager().getFragments() : null;
-                Fragment fragment = (null != fragments && fragments.size() > 0) ? fragments.get(0) : null;
+                Fragment fragment = getActiveFragment();
 
                 if (fragment instanceof StartFragment) {
                     NavHostFragment.findNavController(fragment).navigate(R.id.action_StartFragment_to_BreakFragment);
@@ -146,12 +142,10 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
             public void onClick(View view) {
 
                 // get the active fragment so we know which action to perform
-                Fragment nav = getSupportFragmentManager().getPrimaryNavigationFragment();
-                List<Fragment> fragments = (null != nav) ? nav.getChildFragmentManager().getFragments() : null;
-                Fragment fragment = (null != fragments && fragments.size() > 0) ? fragments.get(0) : null;
-
                 reset();
                 boolean showPlayIcon = true;
+                Fragment fragment = getActiveFragment();
+
                 if (fragment instanceof StartFragment) {
                     end();
                 } else if (fragment instanceof BreakFragment) {
@@ -223,12 +217,19 @@ public class ExerciseActivity extends AppCompatActivity implements StartFragment
 
     }
 
-    public void setFabPlayIcon(boolean paused) {
-        if (paused)
-            setFabButtonIcon(R.id.fabPlay, android.R.drawable.ic_media_play);
-        else
-            setFabButtonIcon(R.id.fabPlay, android.R.drawable.ic_media_pause);
+    private Fragment getActiveFragment()
+    {
+        Fragment nav = getSupportFragmentManager().getPrimaryNavigationFragment();
+        List<Fragment> fragments = (null != nav) ? nav.getChildFragmentManager().getFragments() : null;
+        Fragment fragment = (null != fragments && fragments.size() > 0) ? fragments.get(0) : null;
 
+        return fragment;
+    }
+
+    public void setFabPlayIcon(boolean paused) {
+        setFabButtonIcon(R.id.fabPlay,
+                paused  ? android.R.drawable.ic_media_play
+                        : android.R.drawable.ic_media_pause);
     }
 
     public void setFabButtonIcon(int buttonId, int buttonIcon) {
