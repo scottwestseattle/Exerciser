@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.exerciser.R;
@@ -52,6 +53,7 @@ public class MySessionsRecyclerViewAdapter extends RecyclerView.Adapter<MySessio
         String time = new SimpleDateFormat("mm:ss").format(new Date(((long) holder.mItem.seconds) * 1000));
         String description = "Total Time: " + time;
         holder.programDescription.setText(description);
+        holder.cardLayout.setBackgroundResource(R.drawable.bg_session_card);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +80,7 @@ public class MySessionsRecyclerViewAdapter extends RecyclerView.Adapter<MySessio
         TextView programName;
         TextView programDescription;
         TextView dayLabel;
+        RelativeLayout cardLayout;
 
         public ViewHolder(View view) {
             super(view);
@@ -87,6 +90,7 @@ public class MySessionsRecyclerViewAdapter extends RecyclerView.Adapter<MySessio
             programName = (TextView)itemView.findViewById(R.id.program_name);
             programDescription = (TextView)itemView.findViewById(R.id.program_description);
             dayLabel = (TextView)itemView.findViewById(R.id.day_label);
+            cardLayout = (RelativeLayout) view.findViewById(R.id.card_layout);
 
             /*
             final Button button = itemView.findViewById(R.id.button);
