@@ -39,15 +39,8 @@ public class SessionContent {
         sessionList.add(item);
     }
 
-    /*
-    private static Session createItem(int id, String name, String description, int number) {
-        return new Session(id, name, description, number);
-    }
-    */
-
-
     /**
-     * A dummy item representing a piece of content.
+     * A Session Item
      */
     public static class Session {
         public final int id;

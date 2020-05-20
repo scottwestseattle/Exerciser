@@ -44,7 +44,6 @@ public class MySessionsRecyclerViewAdapter extends RecyclerView.Adapter<MySessio
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-
         holder.dayLabel.setText("Day " + Integer.toString(position + 1));
 
         String name = holder.mItem.exerciseCount + " exercises";
